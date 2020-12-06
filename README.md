@@ -4,3 +4,7 @@
 ## Tools
 
 - [sl1-vault](docs/sl1-vault.md) - Configure or update credentials for sl1api to be used by `sl1cli-tools`
+
+## Init setup
+
+After downloading and untar the binaries you will have to run [sl1-vault](docs/sl1-vault.md) to set up new credentials
