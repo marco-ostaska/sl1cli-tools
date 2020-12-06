@@ -3,4 +3,4 @@
 
 ## Tools
 
-- [sl1-vault](sl1-vault.md) - Configure or update credentials for sl1api to be used by `sl1cli-tools`
+- [sl1-vault](docs/sl1-vault.md) - Configure or update credentials for sl1api to be used by `sl1cli-tools`
