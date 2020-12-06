@@ -28,26 +28,25 @@ Arguments:
 `
 
 const usageNewCfg string = `Configure new credentials for sl1api
+This can also be used to update all parameters to existing vault
 
 Mandatory Arguments: 
-  -update  update user and Password to existing cofiguration
   -u      username
   -p      password
   -url    sl1 api URL
 
 Example:
-  %s -update -u "myuser" -p "pass1234"
+  %s -new -u "myuser" -p "pass1234" -url "https://sl1api.com"
 `
 
 const usageUpdateCfg string = `Update existing credentials for sl1api
 
 Mandatory Arguments: 
-  -new    setup a new configuration
   -u      username
   -p      password
 
 Example:
-  %s -new -u "myuser" -p "pass1234" -url "https://sl1api.com"
+  %s -update -u "myuser" -p "pass1234"
 `
 
 func (fl *flArgs) initFlag() error {
@@ -97,7 +96,7 @@ func (fl *flArgs) initFlag() error {
 	if *update {
 		if *fl.username == "" || *fl.passwd == "" {
 			flag.Usage = func() {
-				fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", os.Args[0])
+				fmt.Fprintf(os.Stderr, "Usage: %s -update ... [ARGUMENTS]\n", os.Args[0])
 				fmt.Fprintf(os.Stderr, usageUpdateCfg, os.Args[0])
 			}
 			flag.Usage()
@@ -111,7 +110,7 @@ func (fl *flArgs) initFlag() error {
 	if *newconfig {
 		if *fl.username == "" || *fl.passwd == "" || *fl.url == "" {
 			flag.Usage = func() {
-				fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", os.Args[0])
+				fmt.Fprintf(os.Stderr, "Usage: %s -new ... [ARGUMENTS]\n", os.Args[0])
 				fmt.Fprintf(os.Stderr, usageNewCfg, os.Args[0])
 			}
 			flag.Usage()
