@@ -1,3 +1,5 @@
+# sl1-vault
+
 ## Usage
 
 ```shell
