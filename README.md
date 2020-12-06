@@ -4,6 +4,7 @@
 ## Tools
 
 - [sl1-vault](docs/sl1-vault.md) - Configure or update credentials for sl1api to be used by `sl1cli-tools`
+- [sl1-id](docs/sl1-id.md) - Print sl1 user information for the specified USERS
 
 ## Init setup
 
