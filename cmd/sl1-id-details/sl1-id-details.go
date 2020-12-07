@@ -133,17 +133,25 @@ func chkArgs() bool {
 
 }
 
-func listIDs() {
+func (sl1 *sl1UserLst) reqAPIwrapper(as ...string) error {
 	var api apirequest.APIData
-	api.API = "/api/account/"
-
-	if err := api.APIRequest(); err != nil {
-		fmt.Println(err)
+	api.API = as[0]
+	if len(as) > 1 {
+		api.ARGS = as[1]
 	}
 
-	var dat sl1UserLst
+	if err := api.APIRequest(); err != nil {
+		return err
+	}
 
-	if err := json.Unmarshal(api.Result, &dat); err != nil {
+	return json.Unmarshal(api.Result, &sl1)
+
+}
+
+func listIDs() {
+	var dat sl1UserLst
+	err := dat.reqAPIwrapper("/api/account/")
+	if err != nil {
 		fmt.Println(err)
 	}
 

@@ -31,7 +31,9 @@ Mandatory Arguments:
   -url    sl1 api URL
 
 Example:
-  sl1-vault -new -u "myuser" -p "pass1234" -url "https://sl1api.com"
+  sl1-vault -new -u 'myuser' -p 'pass1234' -url 'https://sl1api.com'
+  
+Info: avoid using double quotes, always use single quotes
 ```
 
 ## Updating Credential for an existing vault
@@ -45,5 +47,7 @@ Mandatory Arguments:
   -p      password
 
 Example:
-  sl1-vault -update -u "myuser" -p "pass1234"
+  sl1-vault -update -u 'myuser' -p 'pass1234'
+
+Info: avoid using double quotes, always use single quotes
 ```
