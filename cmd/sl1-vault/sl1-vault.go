@@ -36,11 +36,3 @@ func main() {
 		return
 	}
 }
-
-// var u apicryptcfg.UserInfo
-// err := u.SetInfo("ibmwpool", "K$V&ik3Hz@kM", "https://ibmwhirlpool.sciencelogic.net")
-// if err != nil {
-// 	fmt.Println(err)
-// }
-// fmt.Println("CryptPass:", u.CryptP)
-// fmt.Println("B64", u.B64)
