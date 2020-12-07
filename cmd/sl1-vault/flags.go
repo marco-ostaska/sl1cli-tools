@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 )
 
 type flArgs struct {
@@ -36,7 +37,9 @@ Mandatory Arguments:
   -url    sl1 api URL
 
 Example:
-  %s -new -u "myuser" -p "pass1234" -url "https://sl1api.com"
+  %s -new -u 'myuser' -p 'pass1234' -url 'https://sl1api.com'
+
+Info: avoid using double quotes, always use single quotes
 `
 
 const usageUpdateCfg string = `Update existing credentials for sl1api
@@ -46,7 +49,9 @@ Mandatory Arguments:
   -p      password
 
 Example:
-  %s -update -u "myuser" -p "pass1234"
+  %s -update -u 'myuser' -p 'pass1234'
+
+Info: avoid using double quotes, always use single quotes
 `
 
 func (fl *flArgs) initFlag() error {
@@ -61,18 +66,18 @@ func (fl *flArgs) initFlag() error {
 	flag.Parse()
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", path.Base(os.Args[0]))
 		fmt.Fprintf(os.Stderr, usage)
 	}
 
 	if *v {
-		fmt.Fprintf(os.Stderr, version, os.Args[0])
+		fmt.Fprintf(os.Stderr, version, path.Base(os.Args[0]))
 		return fmt.Errorf("dislay version")
 	}
 
 	if *newconfig && *help {
 		flag.Usage = func() {
-			fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", os.Args[0])
+			fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", path.Base(os.Args[0]))
 			fmt.Fprintf(os.Stderr, usageNewCfg, os.Args[0])
 		}
 		flag.Usage()
@@ -81,7 +86,7 @@ func (fl *flArgs) initFlag() error {
 
 	if *update && *help {
 		flag.Usage = func() {
-			fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", os.Args[0])
+			fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", path.Base(os.Args[0]))
 			fmt.Fprintf(os.Stderr, usageUpdateCfg, os.Args[0])
 		}
 		flag.Usage()
@@ -96,7 +101,7 @@ func (fl *flArgs) initFlag() error {
 	if *update {
 		if *fl.username == "" || *fl.passwd == "" {
 			flag.Usage = func() {
-				fmt.Fprintf(os.Stderr, "Usage: %s -update ... [ARGUMENTS]\n", os.Args[0])
+				fmt.Fprintf(os.Stderr, "Usage: %s -update ... [ARGUMENTS]\n", path.Base(os.Args[0]))
 				fmt.Fprintf(os.Stderr, usageUpdateCfg, os.Args[0])
 			}
 			flag.Usage()
@@ -110,7 +115,7 @@ func (fl *flArgs) initFlag() error {
 	if *newconfig {
 		if *fl.username == "" || *fl.passwd == "" || *fl.url == "" {
 			flag.Usage = func() {
-				fmt.Fprintf(os.Stderr, "Usage: %s -new ... [ARGUMENTS]\n", os.Args[0])
+				fmt.Fprintf(os.Stderr, "Usage: %s -new ... [ARGUMENTS]\n", path.Base(os.Args[0]))
 				fmt.Fprintf(os.Stderr, usageNewCfg, os.Args[0])
 			}
 			flag.Usage()
