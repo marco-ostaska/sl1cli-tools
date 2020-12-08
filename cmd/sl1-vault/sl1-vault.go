@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/marco-ostaska/sl1cli-tools/internal/pkg/apicryptcfg"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
 )
 
 var usr apicryptcfg.UserInfo
