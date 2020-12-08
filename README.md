@@ -10,7 +10,7 @@
 
 ## Init setup
 
-After downloading and untar the binaries you will have to run [sl1-vault](docs/sl1-vault.md) to set up new credentials
+After downloading and untar the binaries you will have to run [sl1-vault](docs/cmd/sl1-vault.md) to set up new credentials
 
 ## Packages
 
