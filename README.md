@@ -1,4 +1,6 @@
 # sl1cli-tools
+[![Go Report Card](https://goreportcard.com/badge/github.com/marco-ostaska/sl1cli-tools)](https://goreportcard.com/report/github.com/marco-ostaska/sl1cli-tools)
+
 `sl1cli-tools` is a set of CLI tools that uses Science Logic API to perform administrative tasks in Science Logic Monitoring tool
 
 ## Tools
