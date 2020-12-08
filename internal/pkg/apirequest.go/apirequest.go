@@ -1,6 +1,11 @@
+// December 2020
+// v1.0.0
+
+// Package apirequest makes http request calls on sl1api
 package apirequest
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
@@ -14,8 +19,8 @@ type APIData struct {
 	Result []byte // result from call
 }
 
-// APIRequest wrapper to make http calls
-func (a *APIData) APIRequest() error {
+// apiRequest make the http calls
+func (a *APIData) apiRequest() error {
 
 	var uCFG apicryptcfg.UserInfo
 	if err := uCFG.ReadCryptFile(); err != nil {
@@ -49,4 +54,19 @@ func (a *APIData) APIRequest() error {
 
 	a.Result = body
 	return nil
+}
+
+// NewRequest make new request to sl1 API
+func (a *APIData) NewRequest(v interface{}, as ...string) error {
+	a.API = as[0]
+	if len(as) > 1 {
+		a.ARGS = as[1]
+	}
+
+	if err := a.apiRequest(); err != nil {
+		return err
+	}
+
+	return json.Unmarshal(a.Result, &v)
+
 }

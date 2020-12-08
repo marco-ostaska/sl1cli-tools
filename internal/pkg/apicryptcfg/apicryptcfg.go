@@ -1,3 +1,6 @@
+// December 2020
+// v1.0.0
+
 // Package apicryptcfg crypt the config file used by sl1tools.
 package apicryptcfg
 

@@ -13,3 +13,4 @@ After downloading and untar the binaries you will have to run [sl1-vault](docs/s
 ## Packages
 
 - [apicryptcfg](internal/docs/pkg/apicryptcfg.md) - Package apicryptcfg crypt the config file used by sl1tools.
+- [apirequest](internal/docs/pkg/apirequest.md) - Package apirequest makes http request calls on sl1api
