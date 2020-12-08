@@ -1,6 +1,6 @@
 # apirequest
 --
-    import "github.com/marco-ostaska/sl1cli-tools/internal/pkg/apirequest.go"
+    import "github.com/marco-ostaska/sl1cli-tools/pkg/apirequest.go"
 
 Package apirequest makes http request calls on sl1api
 
