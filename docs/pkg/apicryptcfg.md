@@ -1,6 +1,6 @@
 # apicryptcfg
 --
-    import "github.com/marco-ostaska/sl1cli-tools/internal/pkg/apicryptcfg"
+    import "github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
 
 Package apicryptcfg crypt the config file used by sl1tools.
 
