@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/marco-ostaska/sl1cli-tools/internal/pkg/apicryptcfg"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
 )
 
 // APIData an abstraction to API
