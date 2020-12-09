@@ -7,7 +7,7 @@ import (
 )
 
 func usage() {
-	usage := `Print sl1 user information for the specified USER
+	usage := `Print sl1 user information details for the specified USER,
 
   -v             version
   -h             display this and exit
@@ -16,7 +16,8 @@ func usage() {
 }
 
 func chkArgs() bool {
-	if len(os.Args) == 1 {
+	if len(os.Args) < 2 {
+		usage()
 		return false
 	}
 

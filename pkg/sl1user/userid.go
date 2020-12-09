@@ -3,6 +3,7 @@ package sl1user
 
 import (
 	"fmt"
+	"path"
 	"path/filepath"
 
 	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest.go"
@@ -44,7 +45,7 @@ func (ua *UserAcct) PrintID(args []string) {
 	}
 }
 
-// ID returns a specific user ID index on UserAcct
+// ID returns a specific user ID index from UserAcct
 func (ua *UserAcct) ID(user string) (int, error) {
 
 	for i, u := range *ua {
@@ -54,4 +55,14 @@ func (ua *UserAcct) ID(user string) (int, error) {
 	}
 	return 0, fmt.Errorf("id: %s: no such user", user)
 
+}
+
+// Sl1UserID returns sl1id from user
+func (ua *UserAcct) Sl1UserID(user string) (string, error) {
+	id, err := ua.ID(user)
+	if err != nil {
+		return "", err
+	}
+
+	return path.Base((*ua)[id].URI), nil
 }
