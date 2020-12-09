@@ -1,5 +1,5 @@
 // Package sl1generics have the generic routines
-//to be used throught the sl1tools
+//to be used throughout the sl1tools
 package sl1generics
 
 import (
