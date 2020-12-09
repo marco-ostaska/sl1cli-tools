@@ -3,7 +3,6 @@ package sl1user
 import (
 	"fmt"
 	"path"
-	"path/filepath"
 
 	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest.go"
 	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
@@ -55,6 +54,11 @@ func (ud *UserDetails) LoadUserDetails(id string) error {
 
 // PrintUserDetails prints user details from /api/account/x
 func (ud *UserDetails) PrintUserDetails() {
+	var ua UserAcct
+	if err := ua.GetIDs(); err != nil {
+		fmt.Println(err)
+	}
+
 	fmt.Println("User                  :", ud.User)
 	fmt.Println("First Name            :", ud.ContactFname)
 	fmt.Println("Last Name             :", ud.ContactLname)
@@ -76,31 +80,21 @@ func (ud *UserDetails) PrintUserDetails() {
 		fmt.Println("CreateDate            :", t)
 	}
 
-	userID, err := secID(ud.CreatedBy)
+	userID, err := ua.SearchByURI(ud.CreatedBy)
 	if err == nil {
-		fmt.Println("CreatedBy             :", userID)
+		fmt.Printf("CreatedBy             : sl1id=%s(%s)\n", path.Base(ud.CreatedBy), userID)
 	}
 	t, err = sl1generics.EpochToUnix(ud.EditDate)
 	if err == nil {
 		fmt.Println("EditDate              :", t)
 	}
-	userID, err = secID(ud.UpdatedBy)
+	userID, err = ua.SearchByURI(ud.UpdatedBy)
 	if err == nil {
-		fmt.Println("UpdatedBy             :", userID)
+		fmt.Printf("UpdatedBy             : sl1id=%s(%s)\n", path.Base(ud.UpdatedBy), userID)
 	}
 
 	fmt.Println("UserPolicy            :", ud.UserPolicy)
 	fmt.Println("AlignedOrganizations  :", ud.AlignedOrganizations)
 	fmt.Println("AccessHooks           :", ud.AccessHooks)
-
-}
-
-func secID(userURI string) (string, error) {
-
-	var ud UserDetails
-	if err := ud.LoadUserDetails(path.Base(userURI)); err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("sl1id=%s(%s)", filepath.Base(userURI), ud.User), nil
 
 }

@@ -45,6 +45,18 @@ func (ua *UserAcct) PrintID(args []string) {
 	}
 }
 
+// SearchByURI search user name by provided URI
+func (ua *UserAcct) SearchByURI(uri string) (string, error) {
+
+	for _, u := range *ua {
+		if uri == u.URI {
+			return u.Description, nil
+		}
+	}
+	return uri, fmt.Errorf("user not found for: %s", uri)
+
+}
+
 // ID returns a specific user ID index from UserAcct
 func (ua *UserAcct) ID(user string) (int, error) {
 
