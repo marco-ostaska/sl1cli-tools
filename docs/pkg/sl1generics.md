@@ -4,7 +4,7 @@
 
 Package sl1generics have the generic routines to be used throughout the sl1tools
 
-## Usag
+## Usage
 
 #### func  EpochToUnix
 
