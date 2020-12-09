@@ -2,9 +2,9 @@
 --
     import "github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
 
-Package sl1generics have the generic routines to be used throught the sl1tools
+Package sl1generics have the generic routines to be used throughout the sl1tools
 
-## Usage
+## Usag
 
 #### func  EpochToUnix
 
