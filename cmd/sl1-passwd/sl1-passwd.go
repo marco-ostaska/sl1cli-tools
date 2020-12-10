@@ -7,7 +7,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/apipost.go"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/apipost"
 	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1user"
 	"golang.org/x/crypto/ssh/terminal"
 )

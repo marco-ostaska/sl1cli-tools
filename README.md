@@ -12,6 +12,7 @@
 - [sl1-id](docs/cmd/sl1-id.md) - Print sl1 user information for the specified USERS
 - [sl1-idinfo](docs/cmd/sl1-idinfo.md) - Print sl1 user information details for the specified USER
 - [sl1-passwd](docs/cmd/sl1-passwd.md) - Change password for the specified USER.
+- [sl1-userdel](docs/cmd/sl1-userdel.md) - Delete the specified USER.
 ## Init setup
 
 After downloading and untar the binaries you will have to run [sl1-vault](docs/cmd/sl1-vault.md) to set up new credentials

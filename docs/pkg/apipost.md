@@ -1,6 +1,6 @@
 # apipost
 --
-    import "github.com/marco-ostaska/sl1cli-tools/pkg/apipost.go"
+    import "github.com/marco-ostaska/sl1cli-tools/pkg/apipost"
 
 Package apipost post into sl1api
 
@@ -18,6 +18,13 @@ type APIData struct {
 ```
 
 APIData an abstraction to API
+
+#### func (*APIData) APIDelete
+
+```go
+func (a *APIData) APIDelete() error
+```
+APIDelete delete entry in api
 
 #### func (*APIData) APIPost
 

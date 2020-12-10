@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest.go"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest"
 )
 
 // UserAcct is an abstraction to /api/account

@@ -9,7 +9,7 @@ import (
 const version string = "v1.0.0 dec-2020"
 
 func usage() {
-	usage := `Change password for the specified USER.
+	usage := `Delete the specified USER.
 [WARNING] User configured by sl1-vault must be administrator to execute this task.
 
   -v             version

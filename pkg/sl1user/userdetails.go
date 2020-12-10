@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest.go"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest"
 	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
 )
 
