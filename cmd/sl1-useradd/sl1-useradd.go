@@ -31,29 +31,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	u = userAdd{
-		Organization:        "/api/organization/2",
-		User:                "teste",
-		Email:               "tete@ddsds.com",
-		ContactFname:        "Teste",
-		ContactLname:        "dsdsdsd",
-		PasswdResetRequired: "1",
-		Admin:               "0",
-	}
-
-	u.UserPolicy = "/api/account_policy/11"
-	u.AlignedOrganizations = strings.Split("/api/organization/0,/api/organization/2,/api/organization/3,/api/organization/4", ",")
-
-	e, err := json.Marshal(u)
+	j, err := json.Marshal(u)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 
 	var p apipost.APIData
 	p.API = "/api/account"
 
-	p.Payload = strings.NewReader(string(e))
+	p.Payload = strings.NewReader(string(j))
 
 	if err := p.APIPost(); err != nil {
 		log.Fatal(err)
@@ -64,5 +50,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println((ua.User))
+	if ua.User == u.User {
+		fmt.Println(u.User, "created successful")
+		return
+	}
+	fmt.Println(string(p.Result))
 }

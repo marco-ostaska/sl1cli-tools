@@ -5,26 +5,15 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strings"
 )
-
-type userAdd struct {
-	Organization         string   `json:"organization"`
-	User                 string   `json:"user"`
-	Email                string   `json:"email"`
-	ContactFname         string   `json:"contact_fname"`
-	ContactLname         string   `json:"contact_lname"`
-	PasswdResetRequired  string   `json:"passwd_reset_required"`
-	Admin                string   `json:"admin"`
-	UserPolicy           string   `json:"user_policy"`
-	PermissionKeys       []string `json:"permission_keys"`
-	AlignedOrganizations []string `json:"aligned_organizations"`
-}
 
 const version string = "%s: v1.0.0-2020-Dec\n"
 const usage string = `Create newuser on sl1
 
 Options:
   -org                   User Organization ID
+  -user                  User name
   -email                 User email  
   -name                  User full name
   -resetrequired         Password required to be changed on first login (0 or 1)
@@ -52,15 +41,46 @@ func reqFlags(s ...*string) bool {
 	return true
 }
 
-func (fl *userAdd) initFlag() error {
+func (ua *userAdd) nameFMT(name string) {
+	a := strings.Split(name, " ")
+	switch {
+	case len(a) == 2:
+		ua.ContactFname = a[0]
+		ua.ContactLname = a[1]
+	case len(a) > 2:
+		ua.ContactFname = strings.Join(a[:2], " ")
+		ua.ContactLname = strings.Join(a[2:], " ")
+	default:
+		ua.ContactFname = name
+	}
+
+}
+
+func buildSlice(s *string, api string) []string {
+	if reqFlags(s) {
+		arr := strings.Split(*s, ",")
+
+		for i := 0; i < len(arr); i++ {
+			arr[i] = api + arr[i]
+		}
+
+		return arr
+	}
+	var arr []string
+	return arr
+
+}
+
+func (ua *userAdd) initFlag() error {
 	org := flag.String("org", "", "")
+	user := flag.String("user", "", "")
 	email := flag.String("email", "", "")
 	name := flag.String("name", "", "")
-	// resetRequired := flag.String("resetRequired", "0", "")
-	// admin := flag.String("admin", "0", "")
+	resetRequired := flag.String("resetRequired", "0", "")
+	admin := flag.String("admin", "0", "")
 	userpolicy := flag.String("userpolicy", "", "")
-	// alignedorgs := flag.String("alignedorgs", "", "")
-	// permissionKeys := flag.String("permissionKeys", "", "")
+	alignedorgs := flag.String("alignedorgs", "", "")
+	permissionKeys := flag.String("permissionKeys", "", "")
 	help := flag.Bool("h", false, "")
 	v := flag.Bool("v", false, "")
 
@@ -81,11 +101,20 @@ func (fl *userAdd) initFlag() error {
 		return fmt.Errorf("help")
 	}
 
-	if !reqFlags(org, email, name, userpolicy) {
+	if !reqFlags(org, email, name, userpolicy, user) {
 		flag.Usage()
 		return fmt.Errorf("missing arguments")
 	}
 
+	ua.Organization = *org
+	ua.User = *user
+	ua.Email = *email
+	ua.nameFMT(*name)
+	ua.PasswdResetRequired = *resetRequired
+	ua.Admin = *admin
+	ua.UserPolicy = "/api/account_policy/" + *userpolicy
+	ua.AlignedOrganizations = buildSlice(alignedorgs, "/api/organization/")
+	ua.PermissionKeys = buildSlice(permissionKeys, "/api/permission_key/")
 	return nil
 
 }
