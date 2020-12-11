@@ -11,14 +11,16 @@ import (
 const version string = "%s: v1.0.0-2020-Dec\n"
 const usage string = `Create newuser on sl1
 
-Options:
-  -org                   User Organization ID
+Mandatory Options:
   -user                  User name
-  -email                 User email  
+  -email                 User email 
   -name                  User full name
-  -resetrequired         Password required to be changed on first login (0 or 1)
-  -admin                 Admin 0 or 1
+  -org                   User Organization ID
   -userpolicy            User Policy ID
+
+Options:
+  -resetrequired         Password required to be changed on first login (0 or 1) (Default: 1)
+  -admin                 Admin 0 or 1                                            (Default: 1)
   -permissionkeys        Permission Keys IDs separated by comma
   -alignedorgs           Aligned Organizations IDs separated by comma
   -h                     display this help and exit
@@ -87,7 +89,7 @@ func (ua *userAdd) initFlag() error {
 	flag.Parse()
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [ARGUMENTS]\n", path.Base(os.Args[0]))
+		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]...\n", path.Base(os.Args[0]))
 		fmt.Fprintf(os.Stderr, usage, path.Base(os.Args[0]))
 	}
 

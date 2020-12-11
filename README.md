@@ -11,7 +11,8 @@
 ### User Administration
 - [sl1-id](docs/cmd/sl1-id.md) - Print sl1 user information for the specified USERS
 - [sl1-idinfo](docs/cmd/sl1-idinfo.md) - Print sl1 user information details for the specified USER
-- [sl1-passwd](docs/cmd/sl1-passwd.md) - Change password for the specified USER.
+- [sl1-useradd](docs/cmd/sl1-userdel.md) - Delete the specified USER.
+- [sl1-passwd](docs/cmd/sl1-useradd.md) - Create new USER on sl1.
 - [sl1-userdel](docs/cmd/sl1-userdel.md) - Delete the specified USER.
 ## Init setup
 
