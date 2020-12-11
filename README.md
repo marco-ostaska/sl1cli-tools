@@ -1,10 +1,10 @@
 <img src="docs/logo/logo.png" alt="twsgomon" title="twsgomon" align="right" width="60">
 
-# sl1cli-tools
+# >sl1cli_tools
 [![Go Report Card](https://goreportcard.com/badge/github.com/marco-ostaska/sl1cli-tools)](https://goreportcard.com/report/github.com/marco-ostaska/sl1cli-tools)
 
 
-`sl1cli-tools` is a set of CLI tools that uses Science Logic API to perform administrative tasks in Science Logic Monitoring tool
+`sl1cli-tools` is a set of command line interface tools that uses Science Logic Moniroting API to perform administrative tasks in Science Logic.
 
 ## Tools
 
