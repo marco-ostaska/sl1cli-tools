@@ -1,7 +1,5 @@
 # sl1-useradd
 
-## Usage
-
 ```
 Usage: sl1-useradd [OPTION]...
 Create newuser on sl1

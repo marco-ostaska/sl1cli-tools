@@ -1,7 +1,5 @@
 # sl1-passwd
 
-## Usage
-
 ```
 Usage: sl1-passwd passwd [USER]
 Change password for the specified USER.

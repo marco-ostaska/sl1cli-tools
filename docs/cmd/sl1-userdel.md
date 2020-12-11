@@ -1,7 +1,5 @@
 # sl1-userdel
 
-## Usage
-
 ```
 Usage: sl1-userdel [USER]
 Delete the specified USER.

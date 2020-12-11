@@ -1,7 +1,5 @@
 # sl1-id
 
-## Usage
-
 ```
 Usage: sl1-id [OPTION]... [USERS]
 Print sl1 user information for the specified USERS,

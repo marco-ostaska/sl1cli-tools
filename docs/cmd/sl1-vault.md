@@ -1,7 +1,5 @@
 # sl1-vault
 
-## Usage
-
 ```shell
 Usage: sl1-vault [OPTION]... [ARGUMENTS]
 Configure or update credentials for sl1api
