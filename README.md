@@ -1,5 +1,8 @@
+<img src="docs/logo/logo.png" alt="twsgomon" title="twsgomon" align="right" width="60">
+
 # sl1cli-tools
 [![Go Report Card](https://goreportcard.com/badge/github.com/marco-ostaska/sl1cli-tools)](https://goreportcard.com/report/github.com/marco-ostaska/sl1cli-tools)
+
 
 `sl1cli-tools` is a set of CLI tools that uses Science Logic API to perform administrative tasks in Science Logic Monitoring tool
 
@@ -11,8 +14,8 @@
 ### User Administration
 - [sl1-id](docs/cmd/sl1-id.md) - Print sl1 user information for the specified USERS
 - [sl1-idinfo](docs/cmd/sl1-idinfo.md) - Print sl1 user information details for the specified USER
-- [sl1-useradd](docs/cmd/sl1-userdel.md) - Delete the specified USER.
-- [sl1-passwd](docs/cmd/sl1-useradd.md) - Create new USER on sl1.
+- [sl1-useradd](docs/cmd/sl1-useradd.md) - Delete the specified USER.
+- [sl1-passwd](docs/cmd/sl1-passwd.md) - Create new USER on sl1.
 - [sl1-userdel](docs/cmd/sl1-userdel.md) - Delete the specified USER.
 ## Init setup
 
