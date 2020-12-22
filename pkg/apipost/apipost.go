@@ -2,12 +2,15 @@
 package apipost
 
 import (
+	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 
 	"github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
 )
 
 // APIData an abstraction to API
@@ -28,6 +31,10 @@ func (a *APIData) APIPost() error {
 
 	url := uCFG.URL + a.API + a.ARGS
 	method := "POST"
+	if err := sl1generics.IsReachable(uCFG.URL); err != nil {
+		return fmt.Errorf("%s is unreachable", uCFG.URL)
+	}
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	client := &http.Client{}
 	req, err := http.NewRequest(method, url, a.Payload)

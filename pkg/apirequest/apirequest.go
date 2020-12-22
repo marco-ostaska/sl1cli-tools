@@ -10,9 +10,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"time"
 
 	"github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
 )
 
 // APIData an abstraction to API
@@ -20,22 +20,6 @@ type APIData struct {
 	API    string // API section as : /api/account
 	ARGS   string // any parameter need to be sent to api
 	Result []byte // result from call
-}
-
-func isReachable(url string) error {
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-
-	timeout := time.Duration(15 * time.Second)
-	c := http.Client{
-		Timeout:   timeout,
-		Transport: tr,
-	}
-
-	_, err := c.Get(url)
-
-	return err
 }
 
 // apiRequest make the http calls
@@ -46,7 +30,7 @@ func (a *APIData) apiRequest() error {
 		return err
 	}
 
-	if err := isReachable(uCFG.URL); err != nil {
+	if err := sl1generics.IsReachable(uCFG.URL); err != nil {
 		return fmt.Errorf("%s is unreachable", uCFG.URL)
 	}
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
