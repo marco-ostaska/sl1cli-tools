@@ -5,9 +5,12 @@
 package apirequest
 
 import (
+	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/marco-ostaska/sl1cli-tools/pkg/apicryptcfg"
 )
@@ -19,6 +22,22 @@ type APIData struct {
 	Result []byte // result from call
 }
 
+func isReachable(url string) error {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	timeout := time.Duration(15 * time.Second)
+	c := http.Client{
+		Timeout:   timeout,
+		Transport: tr,
+	}
+
+	_, err := c.Get(url)
+
+	return err
+}
+
 // apiRequest make the http calls
 func (a *APIData) apiRequest() error {
 
@@ -27,6 +46,10 @@ func (a *APIData) apiRequest() error {
 		return err
 	}
 
+	if err := isReachable(uCFG.URL); err != nil {
+		return fmt.Errorf("%s is unreachable", uCFG.URL)
+	}
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	url := uCFG.URL + a.API + a.ARGS + "?hide_filterinfo=1"
 	method := "GET"
 
