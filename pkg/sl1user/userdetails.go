@@ -33,6 +33,7 @@ type UserDetails struct {
 	AlignedOrganizations []string      `json:"aligned_organizations"`
 	AlignedTicketQueues  []interface{} `json:"aligned_ticket_queues"`
 	AccessHooks          AccessHooks   `json:"access_hooks"`
+	PermissionKeys       []string      `json:"permission_keys"`
 }
 
 // AccessHooks subset of UserDetails
@@ -97,4 +98,23 @@ func (ud *UserDetails) PrintUserDetails() {
 	fmt.Println("AlignedOrganizations  :", ud.AlignedOrganizations)
 	fmt.Println("AccessHooks           :", ud.AccessHooks)
 
+}
+
+// GetUserDetails checks if url is reachable
+func (ud *UserDetails) GetUserDetails(username string) error {
+	var usr UserAcct
+	if err := usr.GetIDs(); err != nil {
+		return err
+	}
+
+	id, err := usr.Sl1UserID(username)
+	if err != nil {
+		return err
+	}
+
+	if err := ud.LoadUserDetails(id); err != nil {
+		return err
+	}
+
+	return nil
 }

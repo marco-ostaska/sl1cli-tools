@@ -16,20 +16,10 @@ type userStruct interface {
 func main() {
 
 	if chkArgs() {
-		var usr sl1user.UserAcct
-		if err := usr.GetIDs(); err != nil {
+		var ud sl1user.UserDetails
+		if err := ud.GetUserDetails(os.Args[1]); err != nil {
 			fmt.Println(err)
 			return
-		}
-
-		id, err := usr.Sl1UserID(os.Args[1])
-		if err != nil {
-			panic(err)
-		}
-
-		var ud sl1user.UserDetails
-		if err := ud.LoadUserDetails(id); err != nil {
-			panic(err)
 		}
 		ud.PrintUserDetails()
 	}
