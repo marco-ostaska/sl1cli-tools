@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/httpcalls"
 	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
 )
 
@@ -45,7 +45,7 @@ type AccessHooks struct {
 // LoadUserDetails get user details from /api/account/x
 // and load it to *UserDetails
 func (ud *UserDetails) LoadUserDetails(id string) error {
-	var api apirequest.APIData
+	var api httpcalls.APIData
 	err := api.NewRequest(&ud, "/api/account/", id)
 	if err != nil {
 		return err

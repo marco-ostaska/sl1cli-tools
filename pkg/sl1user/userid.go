@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/apirequest"
+	"github.com/marco-ostaska/sl1cli-tools/pkg/httpcalls"
 )
 
 // UserAcct is an abstraction to /api/account
@@ -17,7 +17,7 @@ type UserAcct []struct {
 
 // GetIDs get user IDs from /api/account
 func (ua *UserAcct) GetIDs() error {
-	var api apirequest.APIData
+	var api httpcalls.APIData
 	err := api.NewRequest(&ua, "/api/account/")
 	if err != nil {
 		return err
