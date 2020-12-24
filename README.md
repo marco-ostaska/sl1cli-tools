@@ -46,7 +46,7 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 copy it to `/usr/local/bin`
 
 ```shell
-sudp cp sl1cmd /usr/local/bin/.
+sudo cp sl1cmd /usr/local/bin/.
 ```
 
 # Getting Started
