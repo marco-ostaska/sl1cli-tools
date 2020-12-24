@@ -34,6 +34,8 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 - [cryptcfg] - (docs/pkg/cryptcfg.md) Package cryptcfg crypt the config file used by sl1cmd.
 - [httpcalls] - (docs/pkg/httpcalls.md) Package httpcalls makes http request calls on sl1api.
+- [sl1user] - (docs/pkg/sl1user.md) Package sl1user have the routines for /api/account.
+
 
 # Installing
 
