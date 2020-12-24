@@ -26,7 +26,7 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 - [vault](docs/cmd/sl1cmd_vault.md) - create or update login information vault for api.
 
 ### User Administration
-- `id` - print users
+- [id](docs/cmd/sl1cmd_id.md) - print users sl1 id for the specified user.
 - `userinfo` - print user information for the specified user
 - `useradd` -  create a new user
 - `userdel` - delete user account.

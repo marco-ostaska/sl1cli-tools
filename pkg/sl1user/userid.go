@@ -44,14 +44,14 @@ func (ua *UserAcct) GetIDs() error {
 
 // PrintID print userId from /api/account
 func (ua *UserAcct) PrintID(args []string) {
-	if len(args) == 1 {
+	if len(args) == 0 {
 		for _, u := range *ua {
 			fmt.Printf("sl1id=%s(%s)\n", filepath.Base(u.URI), u.Description)
 		}
 	}
 
-	if len(args) > 1 {
-		for _, a := range args[1:] {
+	if len(args) > 0 {
+		for _, a := range args {
 			id, err := ua.ID(a)
 			if err != nil {
 				fmt.Println(err)
