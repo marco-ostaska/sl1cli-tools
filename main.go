@@ -14,23 +14,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+package main
 
-// Package sl1generics have the generic routines
-//to be used throughout the sl1cmd
-package sl1generics
+import "github.com/marco-ostaska/sl1cmd/cmd"
 
-import (
-	"strconv"
-	"time"
-)
-
-// EpochToUnix converts epoch time to Unix time
-func EpochToUnix(epoch string) (time.Time, error) {
-	var t time.Time
-	i, err := strconv.ParseInt(epoch, 10, 64)
-	if err != nil {
-		return t, err
-	}
-	t = time.Unix(i, 0)
-	return t, nil
+func main() {
+	cmd.Execute()
 }
