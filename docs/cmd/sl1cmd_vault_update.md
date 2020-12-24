@@ -23,9 +23,14 @@ sl1cmd update -u 'myuser' -p 'pass1234'
 ### Options
 
 ```
-  -h, --help              help for update
   -p, --password string   password
   -u, --user string       username
+```
+
+### Options inherited from parent commands
+
+```
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

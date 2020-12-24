@@ -10,10 +10,10 @@ create or update login information vault for api.
 sl1cmd vault [flags]
 ```
 
-### Options
+### Options inherited from parent commands
 
 ```
-  -h, --help   help for vault
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

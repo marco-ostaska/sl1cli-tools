@@ -9,7 +9,7 @@ sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool
 ### Options
 
 ```
-  -h, --help   help for sl1cmd
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

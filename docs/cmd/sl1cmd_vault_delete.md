@@ -10,10 +10,10 @@ delete an existing vault.
 sl1cmd vault delete [flags]
 ```
 
-### Options
+### Options inherited from parent commands
 
 ```
-  -h, --help   help for delete
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

@@ -23,10 +23,15 @@ sl1cmd new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ### Options
 
 ```
-  -h, --help              help for new
   -p, --password string   password
       --url string        API URI
   -u, --user string       username
+```
+
+### Options inherited from parent commands
+
+```
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

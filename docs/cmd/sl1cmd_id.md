@@ -12,10 +12,10 @@ or (when USER omitted) prints a list of all users sl1 ids.
 sl1cmd id [user]... [flags]
 ```
 
-### Options
+### Options inherited from parent commands
 
 ```
-  -h, --help   help for id
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO
