@@ -41,7 +41,7 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 # Installing
 
-[Download](releases)the binary. 
+[Download](../../releases) the binary file. 
 
 copy it to `/usr/local/bin`
 
