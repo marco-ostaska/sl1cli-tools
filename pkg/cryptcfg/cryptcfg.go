@@ -1,4 +1,4 @@
-// Package cryptcfg crypt the config file used by sl1tools.
+// Package cryptcfg crypt the config file used by sl1cmd.
 package cryptcfg
 
 import (
@@ -124,7 +124,7 @@ func (u *UserInfo) apiB64(user, pass string) error {
 	return nil
 }
 
-// SetInfo set basic UserInfo to be used by sl1tools
+// SetInfo set basic UserInfo to be used by sl1cmd
 func (u *UserInfo) SetInfo(user, passwd, url string) error {
 	u.getInfo()
 	u.URL = url
@@ -187,7 +187,7 @@ func (u *UserInfo) toJSON() error {
 	return nil
 }
 
-//ReadCryptFile read the crypt file to be used by sl1tools
+//ReadCryptFile read the crypt file to be used by sl1cmd
 func (u *UserInfo) ReadCryptFile() error {
 	u.getInfo()
 	u.CFGDir = u.HomeDir + "/.local/sl1api/"
