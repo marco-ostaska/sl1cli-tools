@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/httpcalls"
+	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
 )
 
 // UserAcct is an abstraction to /api/account

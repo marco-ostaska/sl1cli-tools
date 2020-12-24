@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/httpcalls"
-	"github.com/marco-ostaska/sl1cli-tools/pkg/sl1generics"
+	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
+	"github.com/marco-ostaska/sl1cmd/pkg/sl1generics"
 )
 
 // UserDetails is an abstraction of /api/account/x

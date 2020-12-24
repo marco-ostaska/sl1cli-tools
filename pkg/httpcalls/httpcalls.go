@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/marco-ostaska/sl1cli-tools/pkg/cryptcfg"
+	"github.com/marco-ostaska/sl1cmd/pkg/cryptcfg"
 )
 
 // isReachable checks if url is reachable
