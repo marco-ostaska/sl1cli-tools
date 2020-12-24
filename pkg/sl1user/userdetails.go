@@ -51,6 +51,7 @@ type UserDetails struct {
 	AlignedTicketQueues  []interface{} `json:"aligned_ticket_queues"`
 	AccessHooks          AccessHooks   `json:"access_hooks"`
 	PermissionKeys       []string      `json:"permission_keys"`
+	sl1id                string
 }
 
 // AccessHooks subset of UserDetails
@@ -62,6 +63,7 @@ type AccessHooks struct {
 // LoadUserDetails get user details from /api/account/x
 // and load it to *UserDetails
 func (ud *UserDetails) LoadUserDetails(id string) error {
+	ud.sl1id = id
 	var api httpcalls.APIData
 	err := api.NewRequest(&ud, "/api/account/", id)
 	if err != nil {
@@ -78,6 +80,7 @@ func (ud *UserDetails) PrintUserDetails() {
 	}
 
 	fmt.Println("User                  :", ud.User)
+	fmt.Println("sl1id                 :", ud.sl1id)
 	fmt.Println("First Name            :", ud.ContactFname)
 	fmt.Println("Last Name             :", ud.ContactLname)
 	fmt.Println("Email                 :", ud.Email)
