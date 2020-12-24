@@ -20,7 +20,7 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 ## Commands
 
 ### Vault
-- `vautl`
+- `vault` - create or update login information vault for api
 
 ### User Administration
 - `id` - print users
