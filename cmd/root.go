@@ -23,6 +23,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobra/doc"
 )
 
 var cfgFile string
@@ -41,7 +42,7 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	//doc.GenMarkdownTree(rootCmd, "/home/marcoan/go/src/github.com/marco-ostaska/sl1cmd/docs/cmd")
+	doc.GenMarkdownTree(rootCmd, "/home/marcoan/go/src/github.com/marco-ostaska/sl1cmd/docs/cmd")
 }
 
 func init() {

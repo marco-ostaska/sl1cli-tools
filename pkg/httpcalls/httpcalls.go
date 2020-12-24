@@ -129,3 +129,9 @@ func (a *APIData) NewPost(v interface{}, as ...string) error {
 	return a.makeCall("POST", v)
 
 }
+
+// DeleteRequest make delete call to sl1 API
+func (a *APIData) DeleteRequest() error {
+	return a.httpcalls("DELETE")
+
+}
