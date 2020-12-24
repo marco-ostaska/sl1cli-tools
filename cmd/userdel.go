@@ -45,7 +45,7 @@ Warning:
 		}
 		i, err := usr.ID(args[0])
 		if err != nil {
-			fmt.Printf("userdel: %s no such user\n", path.Base(args[0]))
+			fmt.Printf("id: %s no such user\n", path.Base(args[0]))
 			return nil
 		}
 
