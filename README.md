@@ -20,8 +20,10 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 ## Commands
 
+- [sl1cmd](docs/cmd/sl1cmd.mc) - sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.
+
 ### Vault
-- `vault` - create or update login information vault for api
+- [vault](docs/cmd/sl1cmd_vault.md) - create or update login information vault for api.
 
 ### User Administration
 - `id` - print users
