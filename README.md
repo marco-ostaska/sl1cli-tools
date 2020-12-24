@@ -41,11 +41,17 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 # Installing
 
-tbd
+[Download](releases)the binary. 
+
+copy it to `/usr/local/bin`
+
+```shell
+sudp cp sl1cmd /usr/local/bin/.
+```
 
 # Getting Started
 
-tbd
+Before using the sl1cmd to perform admnistrative tasks you must configure the sl1cmd vault using [this procedure](docs/cmd/sl1cmd_vault.md)
 
 
  
