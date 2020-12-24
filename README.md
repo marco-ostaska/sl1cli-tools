@@ -9,6 +9,7 @@ sl1cmd is a command line interface to interact with [ScienceLogic](https://scien
 
 - [Overview](#overview)
   - [Commands](#commands)
+  - [Packages](#packages)
 - [Installing](#intalling)
 - [Getting Started](#getting-started)
 
@@ -28,6 +29,8 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 - `useradd` -  create a new user
 - `userdel` - delete user account.
 - `passwd` - change user password.
+
+## Packages
 
 
 # Installing
