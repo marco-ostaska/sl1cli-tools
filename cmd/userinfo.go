@@ -36,7 +36,8 @@ var userinfoCmd = &cobra.Command{
 			return fmt.Errorf("wrong number of user names passed")
 		}
 		if err := ud.GetUserDetails(args[0]); err != nil {
-			return err
+			fmt.Println(err)
+			return nil
 		}
 		ud.PrintUserDetails()
 		return nil
