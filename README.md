@@ -51,7 +51,7 @@ sudo cp sl1cmd /usr/local/bin/.
 
 # Getting Started
 
-Before using the sl1cmd to perform admnistrative tasks you must configure the sl1cmd vault using [this procedure](docs/cmd/sl1cmd_vault.md)
+Before using the sl1cmd to perform admnistrative tasks you must configure the sl1cmd vault using [this procedure](docs/cmd/sl1cmd_vault_new.md)
 
 
  
