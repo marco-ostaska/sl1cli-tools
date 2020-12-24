@@ -43,3 +43,7 @@ func Execute() {
 	}
 	//doc.GenMarkdownTree(rootCmd, "/home/marcoan/go/src/github.com/marco-ostaska/sl1cmd/docs/cmd")
 }
+
+func init() {
+	rootCmd.PersistentFlags().BoolP("help", "h", false, "display this help and exit")
+}
