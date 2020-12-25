@@ -57,7 +57,7 @@ Warning:
 			return nil
 		}
 
-		fmt.Println("deleting:", (usr)[i].Description)
+		fmt.Println("deleting", (usr)[i].Description)
 
 		if err := p.DeleteRequest(); err != nil {
 			return err

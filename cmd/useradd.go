@@ -36,6 +36,7 @@ type userAdd struct {
 	PasswdResetRequired  string   `json:"passwd_reset_required"`
 	Admin                string   `json:"admin"`
 	UserPolicy           string   `json:"user_policy"`
+	LoginState           string   `json:"login_state"`
 	PermissionKeys       []string `json:"permission_keys"`
 	AlignedOrganizations []string `json:"aligned_organizations"`
 }
@@ -123,6 +124,7 @@ func (ua *userAdd) parseFlags(cmd *cobra.Command) {
 	ua.Admin = parseStringFlag(cmd, "admin")
 	ua.PermissionKeys = parseStringArrFlag(cmd, "permissionkeys")
 	ua.AlignedOrganizations = parseStringArrFlag(cmd, "alignedorgs")
+	ua.LoginState = parseStringFlag(cmd, "loginstate")
 
 	ua.nameFMT(parseStringFlag(cmd, "name"))
 
@@ -144,6 +146,7 @@ func init() {
 	useraddCmd.MarkFlagRequired("userpolicy")
 
 	useraddCmd.Flags().StringP("resetrequired", "r", "1", "Password required to be changed on first login")
+	useraddCmd.Flags().StringP("loginstate", "l", "1", "Login State")
 	useraddCmd.Flags().StringP("admin", "a", "1", "should be admin?")
 	useraddCmd.Flags().StringArrayP("permissionkeys", "k", nil, "Permission keys IDs")
 	useraddCmd.Flags().StringArrayP("alignedorgs", "g", nil, "Aligned Organizations IDs")

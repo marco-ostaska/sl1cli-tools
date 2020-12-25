@@ -15,6 +15,7 @@ sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool
 ### SEE ALSO
 
 * [sl1cmd id](sl1cmd_id.md)	 - print users sl1 id for the specified user.
+* [sl1cmd passwd](sl1cmd_passwd.md)	 - change user password.
 * [sl1cmd useradd](sl1cmd_useradd.md)	 - create a new user.
 * [sl1cmd userdel](sl1cmd_userdel.md)	 - delete user account.
 * [sl1cmd userinfo](sl1cmd_userinfo.md)	 - print user information for the specified user.

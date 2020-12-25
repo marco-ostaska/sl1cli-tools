@@ -25,6 +25,7 @@ sl1cmd useradd --user 'myuser' -o '2' --email 'teste@xx.com' --name 'My Name' --
   -a, --admin string                 should be admin? (default "1")
   -g, --alignedorgs stringArray      Aligned Organizations IDs
   -e, --email string                 email
+  -l, --loginstate string            Login State (default "1")
   -n, --name string                  user full name
   -o, --organization string          organization id
   -k, --permissionkeys stringArray   Permission keys IDs
