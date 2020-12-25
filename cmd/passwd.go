@@ -31,7 +31,7 @@ import (
 
 // passwdCmd represents the passwd command
 var passwdCmd = &cobra.Command{
-	Use:   "passwd",
+	Use:   "passwd [user]",
 	Short: "change user password.",
 	Long: `change user password.
 	
