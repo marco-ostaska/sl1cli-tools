@@ -19,6 +19,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1user"
 	"github.com/spf13/cobra"
@@ -33,7 +34,9 @@ var userinfoCmd = &cobra.Command{
 		var ud sl1user.UserDetails
 		if len(args) != 1 {
 			fmt.Printf("%v \n", cmd.Short)
-			cmd.Usage()
+			if err := cmd.Usage(); err != nil {
+				log.Fatalln(err)
+			}
 			return fmt.Errorf("wrong number of user names passed")
 		}
 		if err := ud.GetUserDetails(args[0]); err != nil {

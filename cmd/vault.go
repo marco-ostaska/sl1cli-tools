@@ -19,6 +19,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/user"
 	"strings"
@@ -36,7 +37,9 @@ var vaultCmd = &cobra.Command{
 	Long:  `create or update login information vault for api.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("%v\n", cmd.Short)
-		cmd.Usage()
+		if err := cmd.Usage(); err != nil {
+			log.Fatalln(err)
+		}
 	},
 }
 
@@ -131,9 +134,15 @@ func addFlag() {
 	newCmd.Flags().StringP("password", "p", "", "password")
 	newCmd.Flags().String("url", "", "API URI")
 
-	newCmd.MarkFlagRequired("user")
-	newCmd.MarkFlagRequired("password")
-	newCmd.MarkFlagRequired("url")
+	if err := newCmd.MarkFlagRequired("user"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := newCmd.MarkFlagRequired("password"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := newCmd.MarkFlagRequired("url"); err != nil {
+		log.Fatalln(err)
+	}
 
 }
 
@@ -142,8 +151,13 @@ func updateFlag() {
 	updateCmd.Flags().StringP("user", "u", "", "username")
 	updateCmd.Flags().StringP("password", "p", "", "password")
 
-	updateCmd.MarkFlagRequired("user")
-	updateCmd.MarkFlagRequired("password")
+	if err := updateCmd.MarkFlagRequired("user"); err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := updateCmd.MarkFlagRequired("password"); err != nil {
+		log.Fatalln(err)
+	}
 
 }
 

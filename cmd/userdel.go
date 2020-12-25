@@ -19,6 +19,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"path"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
@@ -80,7 +81,10 @@ func confirmation(s string) error {
 
 	for confirmation != "yes" && confirmation != "no" {
 		fmt.Printf("🤔 delete user: %s? (yes/no):  ", s)
-		fmt.Scanln(&confirmation)
+		_, err := fmt.Scanln(&confirmation)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	if confirmation == "no" {

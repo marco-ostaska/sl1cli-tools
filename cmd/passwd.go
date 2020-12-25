@@ -41,7 +41,9 @@ Warning:
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
 			fmt.Println(cmd.Short)
-			cmd.Usage()
+			if err := cmd.Usage(); err != nil {
+				log.Fatalln(err)
+			}
 			fmt.Println("invalid number of users passed, it should be 1 user")
 			return
 		}
