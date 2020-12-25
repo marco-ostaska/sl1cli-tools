@@ -22,6 +22,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -49,10 +50,10 @@ func isReachable(url string) error {
 
 // APIData an abstraction to API
 type APIData struct {
-	API     string          // API section as : /api/account
-	ARGS    string          // any parameter need to be sent to api
-	Payload *strings.Reader //payload for posting
-	Result  []byte          // result from call
+	API     string    // API section as : /api/account
+	ARGS    string    // any parameter need to be sent to api
+	Payload io.Reader //payload for posting
+	Result  []byte    // result from call
 }
 
 // httpcalls make the http calls
@@ -70,7 +71,8 @@ func (a *APIData) httpcalls(method string) error {
 	url := uCFG.URL + a.API + a.ARGS + "?hide_filterinfo=1"
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, url, nil)
+
+	req, err := http.NewRequest(method, url, a.Payload)
 
 	if err != nil {
 		return err
@@ -96,11 +98,16 @@ func (a *APIData) httpcalls(method string) error {
 }
 
 func (a *APIData) makeCall(method string, v interface{}) error {
-	if err := a.httpcalls("GET"); err != nil {
+	err := a.httpcalls(method)
+	if err != nil {
 		return err
 	}
 
-	return json.Unmarshal(a.Result, &v)
+	if method == "GET" {
+		return json.Unmarshal(a.Result, &v)
+	}
+
+	return err
 
 }
 
