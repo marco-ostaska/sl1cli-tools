@@ -28,7 +28,7 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 ### User Administration
 - [id](docs/cmd/sl1cmd_id.md) - print users sl1 id for the specified user.
 - [userinfo](docs/cmd/sl1cmd_userinfo.md) - print user information for the specified user.
-- `useradd` -  create a new user
+- [useradd](docs/cmd/sl1cmd_useradd.md) -  create a new user.
 - [userdel](docs/cmd/sl1cmd_userdel.md) - delete user account.
 - `passwd` - change user password.
 
