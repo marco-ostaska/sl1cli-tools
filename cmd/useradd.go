@@ -62,8 +62,6 @@ Warning:
 
 		p.Payload = strings.NewReader(string(j))
 
-		fmt.Println(p.Payload)
-
 		if err := p.NewPost(&j, "/api/account"); err != nil {
 			log.Fatal(err)
 		}

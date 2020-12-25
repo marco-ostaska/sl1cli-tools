@@ -49,10 +49,15 @@ Warning:
 			return nil
 		}
 
-		fmt.Println("deleting:", (usr)[i].Description)
-
 		var p httpcalls.APIData
 		p.API = (usr)[i].URI
+
+		if err := confirmation((usr)[i].Description); err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
+		fmt.Println("deleting:", (usr)[i].Description)
 
 		if err := p.DeleteRequest(); err != nil {
 			return err
@@ -67,6 +72,21 @@ Warning:
 		return nil
 
 	},
+}
+
+func confirmation(s string) error {
+	var confirmation string
+
+	for confirmation != "yes" && confirmation != "no" {
+		fmt.Printf("🤔 delete user: %s? (yes/no):  ", s)
+		fmt.Scanln(&confirmation)
+	}
+
+	if confirmation == "no" {
+		return fmt.Errorf("user %s was not deleted 👀", s)
+	}
+
+	return nil
 }
 
 func init() {
