@@ -10,7 +10,7 @@ Warning:
   User configured in sl1cmd vault must be administrator to execute this task.
 
 ```
-sl1cmd passwd [flags]
+sl1cmd passwd [user] [flags]
 ```
 
 ### Options inherited from parent commands
