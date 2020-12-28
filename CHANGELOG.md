@@ -1,8 +1,12 @@
 # Changelog
 
-## [Unreleased] - 2020-12-28
+## [0.02 Unreleased] - 2020-12-28
 ### Added
 - Flag to accepted invalid certificated, before it always had insecure method.
+- added version to control
+
+### Fixed
+- vault examples
 
 
 ## [Unreleased] - 2020-12-24
