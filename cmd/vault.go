@@ -36,7 +36,7 @@ var vaultCmd = &cobra.Command{
 	Short: "create or update login information vault for api.",
 	Long:  `create or update login information vault for api.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("%v\n", cmd.Short)
+		fmt.Printf("%v\n", cmd.Long)
 		if err := cmd.Usage(); err != nil {
 			log.Fatalln(err)
 		}
@@ -46,12 +46,14 @@ var vaultCmd = &cobra.Command{
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "create new vault.",
-	Long: `create new vault.
+	Long:  `create new vault.`,
+	Example: `
+  Unix Based OS: (use single quotes)
+      sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
+  Windows: (use double quotes)
+      sl1cmd vault new -u "myuser" -p "pass1234" --url "https://sl1api.com"
+       `,
 
-Information:
-  You may experience login issues using double quotes, use single quotes instead.
-  `,
-	Example: `sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		user, err := cmd.Flags().GetString("user")
 		passwd, err1 := cmd.Flags().GetString("password")
@@ -73,12 +75,12 @@ Information:
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "update an existing vault.",
-	Long: `update an existing vault.
-
-Information:
-  You may experience login issues using double quotes, use single quotes instead.
-  `,
-	Example: `sl1cmd update -u 'myuser' -p 'pass1234'`,
+	Long:  `update an existing vault.`,
+	Example: `  
+  Unix based OS:  (use single quotes)
+      sl1cmd update -u 'myuser' -p 'pass1234'
+  Windows: (use double quotes)
+      sl1cmd update -u "myuser" -p "pass1234"`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		err := usr.ReadCryptFile()
 		if err != nil {
