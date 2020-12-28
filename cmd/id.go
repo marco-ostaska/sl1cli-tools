@@ -32,6 +32,7 @@ var idCmd = &cobra.Command{
 	Long: `print users sl1 id for the specified user.
 or (when USER omitted) prints a list of all users sl1 ids.
 .`,
+	Version: "1.0",
 	Run: func(cmd *cobra.Command, args []string) {
 		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		var usr sl1user.UserAcct

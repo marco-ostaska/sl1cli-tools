@@ -30,7 +30,7 @@ var rootCmd = &cobra.Command{
 	Use:     "sl1cmd",
 	Short:   "sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.",
 	Long:    `sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.`,
-	Version: "Unreleased Dec/2020",
+	Version: "0.0.1 Unreleased (Dec/2020)",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -47,5 +47,17 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().Bool("insecure", false, "accept invalid certificates.")
 	rootCmd.PersistentFlags().BoolP("help", "h", false, "display this help and exit")
-	rootCmd.Flags().BoolP("version", "v", false, "output version information and exit")
+	rootCmd.PersistentFlags().BoolP("version", "v", false, "output version information and exit")
+	rootCmd.SetVersionTemplate(`{{.Name}} version: {{.Version}}
+
+Copyright © 2020 Disbributed under GNU General Public License v3 
+(GPLv3) <http://www.gnu.org/licenses/>
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Witten By Marco Ostaska
+`)
 }
