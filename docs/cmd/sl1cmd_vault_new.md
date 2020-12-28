@@ -17,7 +17,7 @@ sl1cmd vault new [flags]
 ### Examples
 
 ```
-sl1cmd new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
+sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ```
 
 ### Options

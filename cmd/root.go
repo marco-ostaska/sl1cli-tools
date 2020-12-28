@@ -23,7 +23,6 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/cobra/doc"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -41,7 +40,7 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	doc.GenMarkdownTree(rootCmd, "./docs/cmd")
+	//doc.GenMarkdownTree(rootCmd, "./docs/cmd")
 
 }
 
