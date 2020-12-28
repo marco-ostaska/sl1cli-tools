@@ -17,7 +17,7 @@ sl1cmd vault new [flags]
 ### Examples
 
 ```
-sl1cmd new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
+sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ```
 
 ### Options
@@ -33,6 +33,7 @@ sl1cmd new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ```
   -h, --help       display this help and exit
       --insecure   accept invalid certificates.
+  -v, --version    output version information and exit
 ```
 
 ### SEE ALSO

@@ -29,8 +29,9 @@ import (
 
 // userdelCmd represents the userdel command
 var userdelCmd = &cobra.Command{
-	Use:   "userdel [user]",
-	Short: "delete user account.",
+	Use:     "userdel [user]",
+	Short:   "delete user account.",
+	Version: "1.0",
 	Long: `Delete the specified USER.
 
 Warning:
