@@ -52,6 +52,7 @@ Warning:
   User configured in sl1cmd vault must be administrator to execute this task.`,
 	Example: `sl1cmd useradd --user 'myuser' -o '2' --email 'teste@xx.com' --name 'My Name' --admin 1 --userpolicy 3 -g 0 -g 2 -g 3`,
 	Run: func(cmd *cobra.Command, args []string) {
+		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		var u userAdd
 		u.parseFlags(cmd)
 

@@ -39,6 +39,7 @@ var passwdCmd = &cobra.Command{
 Warning:
   User configured in sl1cmd vault must be administrator to execute this task.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		if len(args) != 1 {
 			fmt.Println(cmd.Short)
 			if err := cmd.Usage(); err != nil {

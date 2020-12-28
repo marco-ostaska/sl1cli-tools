@@ -36,6 +36,7 @@ var userdelCmd = &cobra.Command{
 Warning:
   User configured in sl1cmd vault must be administrator to execute this task.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 
 		if len(args) != 1 {
 			return fmt.Errorf("wrong number of users passed, it should be 1 user")

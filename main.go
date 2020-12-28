@@ -17,7 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
-import "github.com/marco-ostaska/sl1cmd/cmd"
+import (
+	"github.com/marco-ostaska/sl1cmd/cmd"
+)
 
 func main() {
 	cmd.Execute()
