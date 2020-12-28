@@ -6,10 +6,6 @@ create new vault.
 
 create new vault.
 
-Information:
-  You may experience login issues using double quotes, use single quotes instead.
-  
-
 ```
 sl1cmd vault new [flags]
 ```
@@ -17,7 +13,12 @@ sl1cmd vault new [flags]
 ### Examples
 
 ```
-sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
+
+  Unix Based OS: (use single quotes)
+      sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
+  Windows: (use double quotes)
+      sl1cmd vault new -u "myuser" -p "pass1234" --url "https://sl1api.com"
+       
 ```
 
 ### Options
