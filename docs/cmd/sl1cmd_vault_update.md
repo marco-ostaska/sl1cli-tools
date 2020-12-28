@@ -6,10 +6,6 @@ update an existing vault.
 
 update an existing vault.
 
-Information:
-  You may experience login issues using double quotes, use single quotes instead.
-  
-
 ```
 sl1cmd vault update [flags]
 ```
@@ -17,7 +13,11 @@ sl1cmd vault update [flags]
 ### Examples
 
 ```
-sl1cmd update -u 'myuser' -p 'pass1234'
+  
+  Unix based OS:  (use single quotes)
+      sl1cmd update -u 'myuser' -p 'pass1234'
+  Windows: (use double quotes)
+      sl1cmd update -u "myuser" -p "pass1234"
 ```
 
 ### Options
