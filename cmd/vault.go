@@ -32,10 +32,9 @@ var usr cryptcfg.UserInfo
 
 // vaultCmd represents the vault command
 var vaultCmd = &cobra.Command{
-	Use:     "vault",
-	Short:   "create or update login information vault for api.",
-	Long:    `create or update login information vault for api.`,
-	Version: "1.0",
+	Use:   "vault",
+	Short: "create or update login information vault for api.",
+	Long:  `create or update login information vault for api.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("%v\n", cmd.Short)
 		if err := cmd.Usage(); err != nil {

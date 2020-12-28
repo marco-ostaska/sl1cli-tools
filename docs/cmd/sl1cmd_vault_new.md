@@ -33,7 +33,6 @@ sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ```
   -h, --help       display this help and exit
       --insecure   accept invalid certificates.
-  -v, --version    output version information and exit
 ```
 
 ### SEE ALSO

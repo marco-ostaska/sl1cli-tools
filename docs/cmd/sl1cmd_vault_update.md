@@ -32,7 +32,6 @@ sl1cmd update -u 'myuser' -p 'pass1234'
 ```
   -h, --help       display this help and exit
       --insecure   accept invalid certificates.
-  -v, --version    output version information and exit
 ```
 
 ### SEE ALSO

@@ -28,10 +28,9 @@ import (
 
 // userinfoCmd represents the userinfo command
 var userinfoCmd = &cobra.Command{
-	Use:     "userinfo [user]",
-	Short:   "print user information for the specified user.",
-	Long:    `print user information for the specified user`,
-	Version: "1.0",
+	Use:   "userinfo [user]",
+	Short: "print user information for the specified user.",
+	Long:  `print user information for the specified user`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		var ud sl1user.UserDetails

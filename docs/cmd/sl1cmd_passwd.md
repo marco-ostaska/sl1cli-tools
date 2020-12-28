@@ -18,7 +18,6 @@ sl1cmd passwd [user] [flags]
 ```
   -h, --help       display this help and exit
       --insecure   accept invalid certificates.
-  -v, --version    output version information and exit
 ```
 
 ### SEE ALSO

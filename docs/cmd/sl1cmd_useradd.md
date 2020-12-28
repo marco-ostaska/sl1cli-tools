@@ -39,7 +39,6 @@ sl1cmd useradd --user 'myuser' -o '2' --email 'teste@xx.com' --name 'My Name' --
 ```
   -h, --help       display this help and exit
       --insecure   accept invalid certificates.
-  -v, --version    output version information and exit
 ```
 
 ### SEE ALSO

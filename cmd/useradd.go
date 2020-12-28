@@ -44,9 +44,8 @@ type userAdd struct {
 
 // useraddCmd represents the useradd command
 var useraddCmd = &cobra.Command{
-	Use:     "useradd",
-	Short:   "create a new user.",
-	Version: "1.0",
+	Use:   "useradd",
+	Short: "create a new user.",
 	Long: `create newuser on sl1
 
 Warning:
