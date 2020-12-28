@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1user"
 	"github.com/spf13/cobra"
 )
@@ -31,6 +32,7 @@ var userinfoCmd = &cobra.Command{
 	Short: "print user information for the specified user.",
 	Long:  `print user information for the specified user`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		var ud sl1user.UserDetails
 		if len(args) != 1 {
 			fmt.Printf("%v \n", cmd.Short)

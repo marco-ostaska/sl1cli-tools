@@ -26,13 +26,12 @@ import (
 	"github.com/spf13/cobra/doc"
 )
 
-var cfgFile string
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "sl1cmd",
-	Short: "sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.",
-	Long:  `sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.`,
+	Use:     "sl1cmd",
+	Short:   "sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.",
+	Long:    `sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.`,
+	Version: "Unreleased Dec/2020",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -42,9 +41,12 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	doc.GenMarkdownTree(rootCmd, "/home/marcoan/go/src/github.com/marco-ostaska/sl1cmd/docs/cmd")
+	doc.GenMarkdownTree(rootCmd, "./docs/cmd")
+
 }
 
 func init() {
+	rootCmd.PersistentFlags().Bool("insecure", false, "accept invalid certificates.")
 	rootCmd.PersistentFlags().BoolP("help", "h", false, "display this help and exit")
+	rootCmd.Flags().BoolP("version", "v", false, "output version information and exit")
 }

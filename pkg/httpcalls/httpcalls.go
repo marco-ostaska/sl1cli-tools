@@ -31,10 +31,13 @@ import (
 	"github.com/marco-ostaska/sl1cmd/pkg/cryptcfg"
 )
 
+// Insecure variable used to validate certificate
+var Insecure bool
+
 // isReachable checks if url is reachable
 func isReachable(url string) error {
 	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: Insecure},
 	}
 
 	timeout := time.Duration(15 * time.Second)
@@ -58,7 +61,6 @@ type APIData struct {
 
 // httpcalls make the http calls
 func (a *APIData) httpcalls(method string) error {
-
 	var uCFG cryptcfg.UserInfo
 	if err := uCFG.ReadCryptFile(); err != nil {
 		return err
@@ -67,7 +69,7 @@ func (a *APIData) httpcalls(method string) error {
 	if err := isReachable(uCFG.URL); err != nil {
 		return fmt.Errorf("%s is unreachable", uCFG.URL)
 	}
-	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: Insecure}
 	url := uCFG.URL + a.API + a.ARGS + "?hide_filterinfo=1"
 
 	client := &http.Client{}

@@ -20,6 +20,7 @@ package cmd
 import (
 	"log"
 
+	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1user"
 	"github.com/spf13/cobra"
 )
@@ -32,11 +33,13 @@ var idCmd = &cobra.Command{
 or (when USER omitted) prints a list of all users sl1 ids.
 .`,
 	Run: func(cmd *cobra.Command, args []string) {
+		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
 		var usr sl1user.UserAcct
 		if err := usr.GetIDs(); err != nil {
 			log.Fatalln(err)
 		}
 		usr.PrintID(args)
+
 	},
 }
 
