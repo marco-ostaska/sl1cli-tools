@@ -13,8 +13,7 @@ sl1cmd vault delete [flags]
 ### Options inherited from parent commands
 
 ```
-  -h, --help       display this help and exit
-      --insecure   accept invalid certificates.
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

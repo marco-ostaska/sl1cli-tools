@@ -1,11 +1,4 @@
 # Changelog
-<<<<<<< HEAD
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-=======
 
 ## [0.02 Unreleased] - 2020-12-28
 ### Added
@@ -17,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased] - 2020-12-24
->>>>>>> 1aca3394c19862c74d7c302521a0c7955a470bb9
 ## [Unreleased] - 2020-12-24
 ### Added
 - [id](docs/cmd/sl1cmd_id.md) - print users sl1 id for the specified user.

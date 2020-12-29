@@ -6,6 +6,10 @@ create new vault.
 
 create new vault.
 
+Information:
+  You may experience login issues using double quotes, use single quotes instead.
+  
+
 ```
 sl1cmd vault new [flags]
 ```
@@ -13,12 +17,7 @@ sl1cmd vault new [flags]
 ### Examples
 
 ```
-
-  Unix Based OS: (use single quotes)
-      sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
-  Windows: (use double quotes)
-      sl1cmd vault new -u "myuser" -p "pass1234" --url "https://sl1api.com"
-       
+sl1cmd new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
 ```
 
 ### Options
@@ -32,8 +31,7 @@ sl1cmd vault new [flags]
 ### Options inherited from parent commands
 
 ```
-  -h, --help       display this help and exit
-      --insecure   accept invalid certificates.
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

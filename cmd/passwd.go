@@ -94,12 +94,13 @@ func passwd(user string) {
 	}
 
 	var p httpcalls.APIData
-	p.ARGS = "/password"
 	payload := fmt.Sprintf(`{"password": "%s"}`, sPasswd)
+	p.API = (usr)[i].URI
+	p.ARGS = "/password"
 
 	p.Payload = strings.NewReader(payload)
 
-	if err := p.NewPost(nil, (usr)[i].URI); err != nil {
+	if err := p.NewPost(); err != nil {
 		log.Fatal(err)
 	}
 

@@ -25,46 +25,54 @@ import (
 	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
 )
 
-// Basic is an abstraction for baisc api results
-type Basic []struct {
+// BasicInfo is an abstraction for baisc api results
+type BasicInfo []struct {
 	URI         string `json:"URI"`
 	Description string `json:"description"`
 }
 
-// GetIDs get user IDs from /api/account
-func (bStruct *Basic) GetIDs(secAPI string) error {
-	var api httpcalls.APIData
-	err := api.NewRequest(&bStruct, "/api/"+secAPI)
+// Load get basic struct from /api/x
+func (bInfo *BasicInfo) Load(api string) error {
+	var a httpcalls.APIData
+	a.API = api
+	err := a.NewRequest(&bInfo)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// PrintBasic print basic sl1 api returns
-func (bStruct *Basic) PrintBasic(args []string) {
+// ListBasic basic sl1 api returns
+// with error formating
+func (bInfo *BasicInfo) ListBasic(args []string, e ...string) []string {
+	var result []string
 	if len(args) == 0 {
-		for _, u := range *bStruct {
-			fmt.Printf("sl1id=%s(%s)\n", filepath.Base(u.URI), u.Description)
+		for _, u := range *bInfo {
+			fmtStr := fmt.Sprintf("sl1id=%s(%s)", filepath.Base(u.URI), u.Description)
+			result = append(result, fmtStr)
 		}
 	}
 
 	if len(args) > 0 {
 		for _, a := range args {
-			id, err := bStruct.ID(a)
+			id, err := bInfo.SearchByDesc(a)
 			if err != nil {
-				fmt.Println(err)
+				fmtStr := fmt.Sprintf("%v: %v %v", e[0], a, e[1])
+				result = append(result, fmtStr)
 				continue
 			}
-			fmt.Printf("sl1id=%s(%s)\n", filepath.Base(((*bStruct)[id].URI)), ((*bStruct)[id].Description))
+			fmtStr := fmt.Sprintf("sl1id=%s(%s)", filepath.Base(((*bInfo)[id].URI)), ((*bInfo)[id].Description))
+			result = append(result, fmtStr)
 		}
+
 	}
+	return result
 }
 
 // SearchByURI search description useing URI
-func (bStruct *Basic) SearchByURI(uri string) (string, error) {
+func (bInfo *BasicInfo) SearchByURI(uri string) (string, error) {
 
-	for _, u := range *bStruct {
+	for _, u := range *bInfo {
 		if uri == u.URI {
 			return u.Description, nil
 		}
@@ -73,24 +81,24 @@ func (bStruct *Basic) SearchByURI(uri string) (string, error) {
 
 }
 
-// ID returns a specific user ID index from Basic
-func (bStruct *Basic) ID(user string) (int, error) {
+// SearchByDesc search from Basic.Description
+func (bInfo *BasicInfo) SearchByDesc(s string) (int, error) {
 
-	for i, u := range *bStruct {
-		if user == u.Description {
+	for i, u := range *bInfo {
+		if s == u.Description {
 			return i, nil
 		}
 	}
-	return 0, fmt.Errorf("id: %s: no such user", user)
+	return 0, fmt.Errorf("%s not found", s)
 
 }
 
-// Sl1UserID returns sl1id from user
-func (bStruct *Basic) Sl1UserID(user string) (string, error) {
-	id, err := bStruct.ID(user)
+// Sl1ID returns sl1id
+func (bInfo *BasicInfo) Sl1ID(s string) (string, error) {
+	id, err := bInfo.SearchByDesc(s)
 	if err != nil {
 		return "", err
 	}
 
-	return path.Base((*bStruct)[id].URI), nil
+	return path.Base((*bInfo)[id].URI), nil
 }

@@ -9,9 +9,7 @@ sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool
 ### Options
 
 ```
-  -h, --help       display this help and exit
-      --insecure   accept invalid certificates.
-  -v, --version    output version information and exit
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

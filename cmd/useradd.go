@@ -64,8 +64,9 @@ Warning:
 		var p httpcalls.APIData
 
 		p.Payload = strings.NewReader(string(j))
+		p.API = "/api/account"
 
-		if err := p.NewPost(&j, "/api/account"); err != nil {
+		if err := p.NewPost(); err != nil {
 			log.Fatal(err)
 		}
 

@@ -37,8 +37,7 @@ sl1cmd useradd --user 'myuser' -o '2' --email 'teste@xx.com' --name 'My Name' --
 ### Options inherited from parent commands
 
 ```
-  -h, --help       display this help and exit
-      --insecure   accept invalid certificates.
+  -h, --help   display this help and exit
 ```
 
 ### SEE ALSO

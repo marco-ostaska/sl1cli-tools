@@ -35,7 +35,8 @@ type UserAcct []struct {
 // GetIDs get user IDs from /api/account
 func (ua *UserAcct) GetIDs() error {
 	var api httpcalls.APIData
-	err := api.NewRequest(&ua, "/api/account/")
+	api.API = "/api/account/"
+	err := api.NewRequest(&ua)
 	if err != nil {
 		return err
 	}

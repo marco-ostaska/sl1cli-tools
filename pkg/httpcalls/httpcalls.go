@@ -25,7 +25,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/cryptcfg"
@@ -54,8 +53,8 @@ func isReachable(url string) error {
 // APIData an abstraction to API
 type APIData struct {
 	API     string    // API section as : /api/account
-	ARGS    string    // any parameter need to be sent to api
-	Payload io.Reader //payload for posting
+	ARGS    string    // any extra arguments to complement API
+	Payload io.Reader // payload for posting
 	Result  []byte    // result from call
 }
 
@@ -99,44 +98,21 @@ func (a *APIData) httpcalls(method string) error {
 	return nil
 }
 
-func (a *APIData) makeCall(method string, v interface{}) error {
-	err := a.httpcalls(method)
+// NewRequest make new call to sl1 API
+// and unmarshal the call result to given struct pointer
+func (a *APIData) NewRequest(v interface{}) error {
+	err := a.httpcalls("GET")
 	if err != nil {
 		return err
 	}
 
-	if method == "GET" {
-		return json.Unmarshal(a.Result, &v)
-	}
-
-	return err
-
-}
-
-// NewRequest make new call to sl1 API
-func (a *APIData) NewRequest(v interface{}, as ...string) error {
-	a.API = as[0]
-	if len(as) > 1 {
-		a.ARGS = as[1]
-	}
-
-	return a.makeCall("GET", v)
+	return json.Unmarshal(a.Result, &v)
 
 }
 
 // NewPost make new post to sl1 API
-func (a *APIData) NewPost(v interface{}, as ...string) error {
-	a.API = as[0]
-	if len(as) == 2 {
-		a.ARGS = as[1]
-	}
-
-	if len(as) > 2 {
-		a.Payload = strings.NewReader(as[2])
-	}
-
-	return a.makeCall("POST", v)
-
+func (a *APIData) NewPost() error {
+	return a.httpcalls("POST")
 }
 
 // DeleteRequest make delete call to sl1 API

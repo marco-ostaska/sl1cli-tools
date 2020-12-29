@@ -18,10 +18,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
-	"github.com/marco-ostaska/sl1cmd/pkg/sl1user"
+	"github.com/marco-ostaska/sl1cmd/pkg/sl1generics"
 	"github.com/spf13/cobra"
 )
 
@@ -33,12 +34,20 @@ var idCmd = &cobra.Command{
 or (when USER omitted) prints a list of all users sl1 ids.
 .`,
 	Run: func(cmd *cobra.Command, args []string) {
-		httpcalls.Insecure, _ = rootCmd.Flags().GetBool("insecure")
-		var usr sl1user.UserAcct
-		if err := usr.GetIDs(); err != nil {
+		var err error
+		httpcalls.Insecure, err = rootCmd.Flags().GetBool("insecure")
+		if err != nil {
 			log.Fatalln(err)
 		}
-		usr.PrintID(args)
+		var bInfo sl1generics.BasicInfo
+		if err := bInfo.Load("/api/account"); err != nil {
+			log.Fatalln(err)
+		}
+		a := bInfo.ListBasic(args, cmd.Name(), "no such user")
+
+		for _, v := range a {
+			fmt.Println(v)
+		}
 
 	},
 }

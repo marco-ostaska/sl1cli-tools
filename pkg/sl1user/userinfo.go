@@ -65,7 +65,9 @@ type AccessHooks struct {
 func (ud *UserDetails) LoadUserDetails(id string) error {
 	ud.sl1id = id
 	var api httpcalls.APIData
-	err := api.NewRequest(&ud, "/api/account/", id)
+	api.API = "/api/account/"
+	api.ARGS = id
+	err := api.NewRequest(&ud)
 	if err != nil {
 		return err
 	}
