@@ -15,13 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Package httpcalls makes http request calls on sl1api
+// Package httpcalls makes http calls
+// it has methods to GET, DELETE and POST
 package httpcalls
 
 import (
 	"crypto/tls"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -30,7 +30,7 @@ import (
 	"github.com/marco-ostaska/sl1cmd/pkg/cryptcfg"
 )
 
-// Insecure variable used to validate certificate
+// Insecure variable if true skips cetificated validation
 var Insecure bool
 
 // isReachable checks if url is reachable
@@ -46,7 +46,6 @@ func isReachable(url string) error {
 	}
 
 	_, err := c.Get(url)
-
 	return err
 }
 
@@ -59,6 +58,7 @@ type APIData struct {
 }
 
 // httpcalls make the http calls
+// GET, POST and DELETE
 func (a *APIData) httpcalls(method string) error {
 	var uCFG cryptcfg.UserInfo
 	if err := uCFG.ReadCryptFile(); err != nil {
@@ -66,7 +66,7 @@ func (a *APIData) httpcalls(method string) error {
 	}
 
 	if err := isReachable(uCFG.URL); err != nil {
-		return fmt.Errorf("%s is unreachable", uCFG.URL)
+		return err
 	}
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: Insecure}
 	url := uCFG.URL + a.API + a.ARGS + "?hide_filterinfo=1"
