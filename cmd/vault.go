@@ -21,14 +21,14 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/user"
 	"strings"
 
-	"github.com/marco-ostaska/sl1cmd/pkg/cryptcfg"
+	"github.com/marco-ostaska/sl1cmd/pkg/sl1/vault"
+	"github.com/marco-ostaska/sl1cmd/pkg/wrapper"
 	"github.com/spf13/cobra"
 )
 
-var usr cryptcfg.UserInfo
+var vCredential vault.Credential
 
 // vaultCmd represents the vault command
 var vaultCmd = &cobra.Command{
@@ -52,24 +52,8 @@ var newCmd = &cobra.Command{
       sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
   Windows: (use double quotes)
       sl1cmd vault new -u "myuser" -p "pass1234" --url "https://sl1api.com"
-       `,
-
-	RunE: func(cmd *cobra.Command, args []string) error {
-		user, err := cmd.Flags().GetString("user")
-		passwd, err1 := cmd.Flags().GetString("password")
-		uri, err2 := cmd.Flags().GetString("url")
-
-		if err != nil || err1 != nil || err2 != nil {
-			return err
-		}
-
-		if err = usr.SetInfo(user, passwd, uri); err != nil {
-			return err
-		}
-
-		fmt.Println("Vault configured ✔")
-		return nil
-	},
+`,
+	RunE: newVault,
 }
 
 var updateCmd = &cobra.Command{
@@ -81,91 +65,108 @@ var updateCmd = &cobra.Command{
       sl1cmd update -u 'myuser' -p 'pass1234'
   Windows: (use double quotes)
       sl1cmd update -u "myuser" -p "pass1234"`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		err := usr.ReadCryptFile()
-		if err != nil {
-			eStr := fmt.Sprintf("%v", err)
-			if strings.Contains(eStr, "no such file or directory") {
-				fmt.Println("No credentials found, please try create a new credential vault first ❌")
-				return err
-			}
-			fmt.Println(err)
-			return err
-		}
-
-		fmt.Println("Updating credentials for", usr.URL, "user", usr.UserAPI)
-		user, err := cmd.Flags().GetString("user")
-		passwd, err1 := cmd.Flags().GetString("password")
-		if err != nil || err1 != nil {
-			return err
-		}
-
-		if err = usr.SetInfo(user, passwd, usr.URL); err != nil {
-			return err
-		}
-		fmt.Println("Vault configured ✔")
-		return nil
-
-	},
+	RunE: updateVault,
 }
 
 var deleteCmd = &cobra.Command{
-	Use:   "delete",
-	Short: "delete an existing vault.",
-	Long:  `delete an existing vault.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-
-		usr, err := user.Current()
-		if err != nil {
-			return err
-		}
-
-		if err = os.Remove(usr.HomeDir + "/.local/sl1api/" + "sl1api.cfg"); err != nil {
-			return err
-		}
-
-		fmt.Println("Vault deleted ✔")
-		return nil
-
-	},
+	Use:           "delete",
+	Short:         "delete an existing vault.",
+	Long:          `delete an existing vault.`,
+	SilenceUsage:  true,
+	SilenceErrors: true,
+	RunE:          deleteVault,
 }
 
-func addFlag() {
+func addCommandUpdateCmd() error {
+	vaultCmd.AddCommand(updateCmd)
+	updateCmd.Flags().StringP("user", "u", "", "username")
+	updateCmd.Flags().StringP("password", "p", "", "password")
+
+	err := updateCmd.MarkFlagRequired("user")
+	err1 := updateCmd.MarkFlagRequired("password")
+
+	return wrapper.ReturnError(err, err1)
+
+}
+
+func addCommandNewCmd() error {
 	vaultCmd.AddCommand(newCmd)
 	newCmd.Flags().StringP("user", "u", "", "username")
 	newCmd.Flags().StringP("password", "p", "", "password")
 	newCmd.Flags().String("url", "", "API URI")
 
-	if err := newCmd.MarkFlagRequired("user"); err != nil {
-		log.Fatalln(err)
-	}
-	if err := newCmd.MarkFlagRequired("password"); err != nil {
-		log.Fatalln(err)
-	}
-	if err := newCmd.MarkFlagRequired("url"); err != nil {
-		log.Fatalln(err)
-	}
+	err := newCmd.MarkFlagRequired("user")
+	err1 := newCmd.MarkFlagRequired("password")
+	err2 := newCmd.MarkFlagRequired("url")
+
+	return wrapper.ReturnError(err, err1, err2)
 
 }
 
-func updateFlag() {
-	vaultCmd.AddCommand(updateCmd)
-	updateCmd.Flags().StringP("user", "u", "", "username")
-	updateCmd.Flags().StringP("password", "p", "", "password")
+func newVault(cmd *cobra.Command, args []string) error {
+	user, err := cmd.Flags().GetString("user")
+	passwd, err1 := cmd.Flags().GetString("password")
+	uri, err2 := cmd.Flags().GetString("url")
 
-	if err := updateCmd.MarkFlagRequired("user"); err != nil {
-		log.Fatalln(err)
+	if re := wrapper.ReturnError(err, err1, err2); re != nil {
+		return re
 	}
 
-	if err := updateCmd.MarkFlagRequired("password"); err != nil {
-		log.Fatalln(err)
+	if err = vCredential.SetInfo(user, passwd, uri); err != nil {
+		return err
 	}
+
+	fmt.Println("Vault configured ✔")
+	return nil
+}
+
+func updateVault(cmd *cobra.Command, args []string) error {
+	err := vCredential.ReadFile()
+	if err != nil {
+		if strings.Contains(err.Error(), "no such file or directory") {
+			return fmt.Errorf("No credentials found, please try create a new credential vault first ❌")
+		}
+		return err
+	}
+	user, err := cmd.Flags().GetString("user")
+	passwd, err1 := cmd.Flags().GetString("password")
+	if re := wrapper.ReturnError(err, err1); re != nil {
+		return err
+	}
+
+	fmt.Println("Updating credentials for", vCredential.URL, "user", vCredential.UserAPI)
+
+	if err = vCredential.SetInfo(user, passwd, vCredential.URL); err != nil {
+		return err
+	}
+	fmt.Println("Vault configured ✔")
+	return nil
+
+}
+
+func deleteVault(cmd *cobra.Command, args []string) error {
+	if err := vCredential.UserInfo(); err != nil {
+		return fmt.Errorf("%s ❌", err)
+	}
+
+	if err := os.Remove(vCredential.File); err != nil {
+		return fmt.Errorf("%s ❌", err.Error())
+	}
+
+	fmt.Println("Vault deleted ✔")
+	return nil
 
 }
 
 func init() {
 	rootCmd.AddCommand(vaultCmd)
-	addFlag()
-	updateFlag()
 	vaultCmd.AddCommand(deleteCmd)
+
+	err := addCommandNewCmd()
+	err1 := addCommandUpdateCmd()
+
+	if re := wrapper.ReturnError(err, err1); re != nil {
+		log.Fatalln(err)
+	}
+
 }

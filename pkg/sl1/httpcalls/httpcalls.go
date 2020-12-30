@@ -30,10 +30,11 @@ import (
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1/vault"
 )
 
-// Insecure variable if true skips cetificated validation
+// Insecure variable skips certificate validation when true
 var Insecure bool
 
 // isReachable checks if url is reachable
+// used for internal purposes only
 func isReachable(url string) error {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: Insecure},

@@ -60,7 +60,8 @@ func getHash(s string) (bs []byte, err error) {
 	return bs, nil
 }
 
-func (c *Credential) userInfo() error {
+// UserInfo parse some local information to vault.Credential
+func (c *Credential) UserInfo() error {
 	usr, err := user.Current()
 	if err != nil {
 		return err
@@ -151,7 +152,7 @@ func (c *Credential) apiB64(user, pass string) error {
 
 // SetInfo set provided information to credential vault
 func (c *Credential) SetInfo(user, passwd, url string) error {
-	if err := c.userInfo(); err != nil {
+	if err := c.UserInfo(); err != nil {
 		return err
 	}
 	c.URL = url
@@ -220,7 +221,7 @@ func (c *Credential) toJSON() error {
 
 // ReadFile reads the credential vault and unmarshal it.
 func (c *Credential) ReadFile() error {
-	if err := c.userInfo(); err != nil {
+	if err := c.UserInfo(); err != nil {
 		return err
 	}
 	data, err := ioutil.ReadFile(c.File)
