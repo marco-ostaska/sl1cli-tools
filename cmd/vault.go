@@ -44,9 +44,10 @@ var vaultCmd = &cobra.Command{
 }
 
 var newCmd = &cobra.Command{
-	Use:   "new",
-	Short: "create new vault.",
-	Long:  `create new vault.`,
+	Use:           "new",
+	Short:         "create new vault.",
+	Long:          `create new vault.`,
+	SilenceErrors: true,
 	Example: `
   Unix Based OS: (use single quotes)
       sl1cmd vault new -u 'myuser' -p 'pass1234' --url 'https://sl1api.com'
@@ -99,7 +100,11 @@ func addCommandNewCmd() error {
 	err1 := newCmd.MarkFlagRequired("password")
 	err2 := newCmd.MarkFlagRequired("url")
 
-	return wrapper.ReturnError(err, err1, err2)
+	if re := wrapper.ReturnError(err, err1, err2); re != nil {
+		return re
+	}
+
+	return nil
 
 }
 
