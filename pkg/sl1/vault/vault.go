@@ -12,11 +12,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnc.org/licenses/>.
 */
 
-// Package cryptcfg crypt the config file used by sl1cmd.
-package cryptcfg
+// Package vault manage encryption for sl1cmd credentials
+package vault
 
 import (
 	"crypto/aes"
@@ -26,26 +26,28 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"os/user"
+	"path"
 )
 
-// UserInfo got the configuration for user
-type UserInfo struct {
-	HomeDir    string
-	CFGFile    string
-	CFGDir     string
-	Username   string
-	CryptP     string
-	DcryptP    string
+const vaultFile string = "/.local/sl1cmd/sl1cmd.cfg"
+
+// Credential is an abstraction to credential vault
+type Credential struct {
+	HomeDir    string // local user home directory
+	Username   string // local user name
+	Hostname   string // local hostname
+	File       string // credential vault file full path
+	CryptP     string // encrypted API password
+	DcryptP    string // decrypted API password
 	CryptJSON  string
 	DcryptJSON string
-	B64        string `json:"b64"`
-	UserAPI    string `json:"user"`
-	URL        string `json:"url"`
+	B64        string `json:"b64"`  // base64 mask to be used by API calls
+	UserAPI    string `json:"user"` // API username
+	URL        string `json:"url"`  // API URL
 }
 
 func getHash(s string) (bs []byte, err error) {
@@ -58,24 +60,31 @@ func getHash(s string) (bs []byte, err error) {
 	return bs, nil
 }
 
-func (u *UserInfo) getInfo() {
+func (c *Credential) userInfo() error {
 	usr, err := user.Current()
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
-	u.HomeDir = usr.HomeDir
-	u.Username = usr.Username
+	hostname, err := os.Hostname()
+	if err != nil {
+		return err
+	}
+
+	c.HomeDir = usr.HomeDir
+	c.Username = usr.Username
+	c.Hostname = hostname
+	c.File = usr.HomeDir + vaultFile
+
+	return nil
 }
 
-func (u *UserInfo) setDir() error {
-	u.CFGDir = u.HomeDir + "/.local/sl1api/"
-	u.CFGFile = u.CFGDir + "sl1api.cfg"
-	return os.MkdirAll(u.CFGDir, 0700)
+func (c *Credential) setDir() error {
+	return os.MkdirAll(path.Dir(c.File), 0600)
 }
 
-func (u *UserInfo) newGCM() (gcm cipher.AEAD, err error) {
-	hash, err := getHash(u.HomeDir + u.Username)
+func (c *Credential) newGCM() (gcm cipher.AEAD, err error) {
+	hash, err := getHash(c.HomeDir + c.Username + c.Hostname)
 	if err != nil {
 		return gcm, err
 	}
@@ -89,9 +98,9 @@ func (u *UserInfo) newGCM() (gcm cipher.AEAD, err error) {
 
 }
 
-func (u *UserInfo) encrypt(s string) (string, error) {
+func (c *Credential) encrypt(s string) (string, error) {
 	data := []byte(s)
-	gcm, err := u.newGCM()
+	gcm, err := c.newGCM()
 	if err != nil {
 		return "", err
 	}
@@ -103,13 +112,12 @@ func (u *UserInfo) encrypt(s string) (string, error) {
 
 	enc := gcm.Seal(nonce, nonce, data, nil)
 
-	//u.CryptP =
 	return base64.StdEncoding.EncodeToString(enc), nil
 }
 
-func (u *UserInfo) decrypt(s string) (bs []byte, err error) {
+func (c *Credential) decrypt(s string) (bs []byte, err error) {
 	data := []byte(s)
-	gcm, err := u.newGCM()
+	gcm, err := c.newGCM()
 	if err != nil {
 		return bs, err
 	}
@@ -124,46 +132,46 @@ func (u *UserInfo) decrypt(s string) (bs []byte, err error) {
 
 }
 
-func (u *UserInfo) apiB64(user, pass string) error {
+func (c *Credential) apiB64(user, pass string) error {
 	sDec, err := base64.StdEncoding.DecodeString(pass)
 	if err != nil {
 		return err
 	}
 
-	bs, err := u.decrypt(string(sDec))
+	bs, err := c.decrypt(string(sDec))
 	if err != nil {
 		return err
 	}
 
-	u.DcryptP = string(bs)
-	up := user + ":" + u.DcryptP
-	u.B64 = base64.StdEncoding.EncodeToString([]byte(up))
+	c.DcryptP = string(bs)
+	up := user + ":" + c.DcryptP
+	c.B64 = base64.StdEncoding.EncodeToString([]byte(up))
 	return nil
 }
 
-// SetInfo set basic UserInfo to be used by sl1cmd
-func (u *UserInfo) SetInfo(user, passwd, url string) error {
-	u.getInfo()
-	u.URL = url
-	u.UserAPI = user
-	err := u.setDir()
+// SetInfo set provided information to credential vault
+func (c *Credential) SetInfo(user, passwd, url string) error {
+	c.userInfo()
+	c.URL = url
+	c.UserAPI = user
+	err := c.setDir()
 	if err != nil {
 		return err
 	}
 
-	enc, err := u.encrypt(passwd)
+	enc, err := c.encrypt(passwd)
 	if err != nil {
 		return err
 	}
 
-	u.CryptP = enc
+	c.CryptP = enc
 
-	err = u.apiB64(u.UserAPI, u.CryptP)
+	err = c.apiB64(c.UserAPI, c.CryptP)
 	if err != nil {
 		return err
 	}
 
-	err = u.toJSON()
+	err = c.toJSON()
 	if err != nil {
 		return err
 	}
@@ -171,13 +179,13 @@ func (u *UserInfo) SetInfo(user, passwd, url string) error {
 	return nil
 }
 
-func (u *UserInfo) toJSON() error {
-	bs, err := json.Marshal(u)
+func (c *Credential) toJSON() error {
+	bs, err := json.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	f, err := os.Create(u.CFGFile)
+	f, err := os.Create(c.File)
 
 	if err != nil {
 		return err
@@ -193,7 +201,7 @@ func (u *UserInfo) toJSON() error {
 	if err != nil {
 		return err
 	}
-	enc, err := u.encrypt(string(bs))
+	enc, err := c.encrypt(string(bs))
 	if err != nil {
 		return err
 	}
@@ -201,15 +209,17 @@ func (u *UserInfo) toJSON() error {
 	if err != nil {
 		return err
 	}
+
+	if err := os.Chmod(c.File, 0600); err != nil {
+		return err
+	}
 	return nil
 }
 
-//ReadCryptFile read the crypt file to be used by sl1cmd
-func (u *UserInfo) ReadCryptFile() error {
-	u.getInfo()
-	u.CFGDir = u.HomeDir + "/.local/sl1api/"
-	u.CFGFile = u.CFGDir + "sl1api.cfg"
-	data, err := ioutil.ReadFile(u.CFGFile)
+// ReadFile reads the credential vault and unmarshal it.
+func (c *Credential) ReadFile() error {
+	c.userInfo()
+	data, err := ioutil.ReadFile(c.File)
 	if err != nil {
 		return err
 	}
@@ -219,12 +229,12 @@ func (u *UserInfo) ReadCryptFile() error {
 		return err
 	}
 
-	bs, err := u.decrypt(string(sDec))
+	bs, err := c.decrypt(string(sDec))
 	if err != nil {
 		return err
 	}
 
-	err = json.Unmarshal(bs, &u)
+	err = json.Unmarshal(bs, &c)
 	if err != nil {
 		return err
 	}
