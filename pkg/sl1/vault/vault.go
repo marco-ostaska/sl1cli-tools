@@ -151,7 +151,9 @@ func (c *Credential) apiB64(user, pass string) error {
 
 // SetInfo set provided information to credential vault
 func (c *Credential) SetInfo(user, passwd, url string) error {
-	c.userInfo()
+	if err := c.userInfo(); err != nil {
+		return err
+	}
 	c.URL = url
 	c.UserAPI = user
 	err := c.setDir()
@@ -218,7 +220,9 @@ func (c *Credential) toJSON() error {
 
 // ReadFile reads the credential vault and unmarshal it.
 func (c *Credential) ReadFile() error {
-	c.userInfo()
+	if err := c.userInfo(); err != nil {
+		return err
+	}
 	data, err := ioutil.ReadFile(c.File)
 	if err != nil {
 		return err
