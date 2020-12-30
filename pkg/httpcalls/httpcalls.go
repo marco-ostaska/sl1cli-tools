@@ -27,7 +27,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/marco-ostaska/sl1cmd/pkg/sl1/vault/crypt"
+	"github.com/marco-ostaska/sl1cmd/pkg/sl1/vault"
 )
 
 // Insecure variable if true skips cetificated validation
@@ -60,8 +60,8 @@ type APIData struct {
 // httpcalls make the http calls
 // GET, POST and DELETE
 func (a *APIData) httpcalls(method string) error {
-	var vault crypt.VaultInfo
-	if err := vault.ReadCryptFile(); err != nil {
+	var vault vault.Credential
+	if err := vault.ReadFile(); err != nil {
 		return err
 	}
 
