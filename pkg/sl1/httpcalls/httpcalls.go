@@ -15,8 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Package httpcalls makes http calls
-// it has methods to GET, DELETE and POST
+// Package httpcalls makes GET, DELETE and POST calls
 package httpcalls
 
 import (
@@ -33,6 +32,35 @@ import (
 // Insecure variable skips certificate validation when true
 var Insecure bool
 
+// APIData an abstraction to API
+type APIData struct {
+	API     string    // API section /api/xyz
+	ARGS    string    // any extra arguments to be passed to API
+	Payload io.Reader // payload for posting
+	Result  []byte    // result body from call
+}
+
+// DeleteRequest make delete call to sl1 API
+func (a *APIData) DeleteRequest() error {
+	return a.httpcalls("DELETE")
+
+}
+
+// NewPost make new post to sl1 API
+func (a *APIData) NewPost() error {
+	return a.httpcalls("POST")
+}
+
+// NewRequest make new call to sl1 API and unmarshal the call result to given struct pointer
+func (a *APIData) NewRequest(v interface{}) error {
+	err := a.httpcalls("GET")
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(a.Result, &v)
+}
+
 // isReachable checks if url is reachable
 // used for internal purposes only
 func isReachable(url string) error {
@@ -48,14 +76,6 @@ func isReachable(url string) error {
 
 	_, err := c.Get(url)
 	return err
-}
-
-// APIData an abstraction to API
-type APIData struct {
-	API     string    // API section as : /api/account
-	ARGS    string    // any extra arguments to complement API
-	Payload io.Reader // payload for posting
-	Result  []byte    // result from call
 }
 
 // httpcalls make the http calls
@@ -97,27 +117,4 @@ func (a *APIData) httpcalls(method string) error {
 
 	a.Result = body
 	return nil
-}
-
-// NewRequest make new call to sl1 API
-// and unmarshal the call result to given struct pointer
-func (a *APIData) NewRequest(v interface{}) error {
-	err := a.httpcalls("GET")
-	if err != nil {
-		return err
-	}
-
-	return json.Unmarshal(a.Result, &v)
-
-}
-
-// NewPost make new post to sl1 API
-func (a *APIData) NewPost() error {
-	return a.httpcalls("POST")
-}
-
-// DeleteRequest make delete call to sl1 API
-func (a *APIData) DeleteRequest() error {
-	return a.httpcalls("DELETE")
-
 }
