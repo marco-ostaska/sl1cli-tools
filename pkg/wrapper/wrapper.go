@@ -31,6 +31,7 @@ func EpochToUnix(epoch string) (time.Time, error) {
 		return t, err
 	}
 	t = time.Unix(i, 0)
+
 	return t, nil
 }
 
