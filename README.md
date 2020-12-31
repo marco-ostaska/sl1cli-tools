@@ -22,9 +22,12 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 - [sl1cmd](docs/cmd/sl1cmd.md) - sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.
 
-## Packages
+## Packages 
+[![GoDoc](https://godoc.org/github.com/marco-ostaska/sl1cmd?status.svg)](https://godoc.org/github.com/marco-ostaska/sl1cmd)
 
 - [sl1/vault](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/sl1/vault) - Package vault manages encryption for sl1cmd credentials.
+- [wrappper](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/wrapper) - Package wrapper wraps some boring tasks.
+
 
 # Installing
 
