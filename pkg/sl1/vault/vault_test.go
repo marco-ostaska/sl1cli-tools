@@ -9,7 +9,7 @@ import (
 
 func TestUserInfo(t *testing.T) {
 	var vault Credential
-	if err := vault.userInfo(); err != nil {
+	if err := vault.UserInfo(); err != nil {
 		t.Errorf(err.Error())
 	}
 
@@ -20,7 +20,7 @@ func TestUserInfo(t *testing.T) {
 
 func TestCreateVaultDir(t *testing.T) {
 	var vault Credential
-	if err := vault.userInfo(); err != nil {
+	if err := vault.UserInfo(); err != nil {
 		t.Errorf(err.Error())
 	}
 

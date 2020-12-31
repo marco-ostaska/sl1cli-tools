@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnc.org/licenses/>.
 */
 
-// Package vault manage encryption for sl1cmd credentials
+// Package vault manages encryption for sl1cmd credentials
 package vault
 
 import (
@@ -50,17 +50,7 @@ type Credential struct {
 	URL        string `json:"url"`  // API URL
 }
 
-func getHash(s string) (bs []byte, err error) {
-	hash := sha512.New()
-	if _, err = hash.Write([]byte(s)); err != nil {
-		return bs, err
-	}
-
-	bs = []byte(hex.EncodeToString(hash.Sum(nil))[:32])
-	return bs, nil
-}
-
-// UserInfo parse some local information to vault.Credential
+// UserInfo parse HomeDir, Username, Hostname and File to vault.Credential
 func (c *Credential) UserInfo() error {
 	usr, err := user.Current()
 	if err != nil {
@@ -77,76 +67,6 @@ func (c *Credential) UserInfo() error {
 	c.Hostname = hostname
 	c.File = usr.HomeDir + vaultFile
 
-	return nil
-}
-
-func (c *Credential) setDir() error {
-	return os.MkdirAll(path.Dir(c.File), 0600)
-}
-
-func (c *Credential) newGCM() (gcm cipher.AEAD, err error) {
-	hash, err := getHash(c.HomeDir + c.Username + c.Hostname)
-	if err != nil {
-		return gcm, err
-	}
-
-	cBlock, err := aes.NewCipher(hash)
-	if err != nil {
-		return gcm, err
-	}
-
-	return cipher.NewGCM(cBlock)
-
-}
-
-func (c *Credential) encrypt(s string) (string, error) {
-	data := []byte(s)
-	gcm, err := c.newGCM()
-	if err != nil {
-		return "", err
-	}
-
-	nonce := make([]byte, gcm.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		return "", err
-	}
-
-	enc := gcm.Seal(nonce, nonce, data, nil)
-
-	return base64.StdEncoding.EncodeToString(enc), nil
-}
-
-func (c *Credential) decrypt(s string) (bs []byte, err error) {
-	data := []byte(s)
-	gcm, err := c.newGCM()
-	if err != nil {
-		return bs, err
-	}
-	nonceSize := gcm.NonceSize()
-	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
-	ptxt, err := gcm.Open(nil, nonce, ciphertext, nil)
-	if err != nil {
-		return bs, err
-	}
-
-	return ptxt, err
-
-}
-
-func (c *Credential) apiB64(user, pass string) error {
-	sDec, err := base64.StdEncoding.DecodeString(pass)
-	if err != nil {
-		return err
-	}
-
-	bs, err := c.decrypt(string(sDec))
-	if err != nil {
-		return err
-	}
-
-	c.DcryptP = string(bs)
-	up := user + ":" + c.DcryptP
-	c.B64 = base64.StdEncoding.EncodeToString([]byte(up))
 	return nil
 }
 
@@ -182,6 +102,120 @@ func (c *Credential) SetInfo(user, passwd, url string) error {
 	return nil
 }
 
+// ReadFile reads the credential vault and unmarshal it.
+func (c *Credential) ReadFile() error {
+	if err := c.UserInfo(); err != nil {
+		return err
+	}
+	data, err := ioutil.ReadFile(c.File)
+	if err != nil {
+		return err
+	}
+
+	sDec, err := base64.StdEncoding.DecodeString(string(data))
+	if err != nil {
+		return err
+	}
+
+	bs, err := c.decrypt(string(sDec))
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(bs, &c)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+// getHash genetares a 32 char hash based on user
+// machine and sha512 information
+func getHash(s string) (bs []byte, err error) {
+	hash := sha512.New()
+	if _, err = hash.Write([]byte(s)); err != nil {
+		return bs, err
+	}
+
+	bs = []byte(hex.EncodeToString(hash.Sum(nil))[:32])
+	return bs, nil
+}
+
+func (c *Credential) setDir() error {
+	return os.MkdirAll(path.Dir(c.File), 0600)
+}
+
+func (c *Credential) newGCM() (gcm cipher.AEAD, err error) {
+	hash, err := getHash(c.HomeDir + c.Username + c.Hostname)
+	if err != nil {
+		return gcm, err
+	}
+
+	cBlock, err := aes.NewCipher(hash)
+	if err != nil {
+		return gcm, err
+	}
+
+	return cipher.NewGCM(cBlock)
+
+}
+
+// encrypt encrypts the content
+func (c *Credential) encrypt(s string) (string, error) {
+	data := []byte(s)
+	gcm, err := c.newGCM()
+	if err != nil {
+		return "", err
+	}
+
+	nonce := make([]byte, gcm.NonceSize())
+	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
+		return "", err
+	}
+
+	enc := gcm.Seal(nonce, nonce, data, nil)
+
+	return base64.StdEncoding.EncodeToString(enc), nil
+}
+
+// decrypt descrypts the content
+func (c *Credential) decrypt(s string) (bs []byte, err error) {
+	data := []byte(s)
+	gcm, err := c.newGCM()
+	if err != nil {
+		return bs, err
+	}
+	nonceSize := gcm.NonceSize()
+	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
+	ptxt, err := gcm.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		return bs, err
+	}
+
+	return ptxt, err
+
+}
+
+// apiB64 mask the encrypted content to base64
+func (c *Credential) apiB64(user, pass string) error {
+	sDec, err := base64.StdEncoding.DecodeString(pass)
+	if err != nil {
+		return err
+	}
+
+	bs, err := c.decrypt(string(sDec))
+	if err != nil {
+		return err
+	}
+
+	c.DcryptP = string(bs)
+	up := user + ":" + c.DcryptP
+	c.B64 = base64.StdEncoding.EncodeToString([]byte(up))
+	return nil
+}
+
+// toJSON marshal to json for easy manipulation of the data
 func (c *Credential) toJSON() error {
 	bs, err := json.Marshal(c)
 	if err != nil {
@@ -217,32 +251,4 @@ func (c *Credential) toJSON() error {
 		return err
 	}
 	return nil
-}
-
-// ReadFile reads the credential vault and unmarshal it.
-func (c *Credential) ReadFile() error {
-	if err := c.UserInfo(); err != nil {
-		return err
-	}
-	data, err := ioutil.ReadFile(c.File)
-	if err != nil {
-		return err
-	}
-
-	sDec, err := base64.StdEncoding.DecodeString(string(data))
-	if err != nil {
-		return err
-	}
-
-	bs, err := c.decrypt(string(sDec))
-	if err != nil {
-		return err
-	}
-
-	err = json.Unmarshal(bs, &c)
-	if err != nil {
-		return err
-	}
-	return nil
-
 }

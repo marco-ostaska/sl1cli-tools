@@ -15,23 +15,24 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package sl1generics
+// Package sl1 provide primitives for sl1api
+package sl1
 
 import (
 	"fmt"
 	"path"
 	"path/filepath"
 
-	"github.com/marco-ostaska/sl1cmd/pkg/httpcalls"
+	"github.com/marco-ostaska/sl1cmd/pkg/sl1/httpcalls"
 )
 
-// BasicInfo is an abstraction for baisc api results
+// BasicInfo is an abstraction for basic api results
 type BasicInfo []struct {
 	URI         string `json:"URI"`
 	Description string `json:"description"`
 }
 
-// Load get basic struct from /api/x
+// Load loads BasicInfo from /api/xyz
 func (bInfo *BasicInfo) Load(api string) error {
 	var a httpcalls.APIData
 	a.API = api
@@ -42,8 +43,7 @@ func (bInfo *BasicInfo) Load(api string) error {
 	return nil
 }
 
-// ListBasic basic sl1 api returns
-// with error formating
+// ListBasic returns a list of BasicInfo.Descriptin found
 func (bInfo *BasicInfo) ListBasic(args []string, e ...string) []string {
 	var result []string
 	if len(args) == 0 {
@@ -93,7 +93,7 @@ func (bInfo *BasicInfo) SearchByDesc(s string) (int, error) {
 
 }
 
-// Sl1ID returns sl1id
+// Sl1ID returns sl1 id from BasicInfo.Description
 func (bInfo *BasicInfo) Sl1ID(s string) (string, error) {
 	id, err := bInfo.SearchByDesc(s)
 	if err != nil {
