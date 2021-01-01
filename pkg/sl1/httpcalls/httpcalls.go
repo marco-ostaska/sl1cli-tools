@@ -21,9 +21,11 @@ package httpcalls
 import (
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1/vault"
@@ -75,6 +77,12 @@ func isReachable(url string) error {
 	}
 
 	_, err := c.Get(url)
+	if err != nil {
+		if strings.Contains(err.Error(), "certificate") {
+			return fmt.Errorf("%v\n\nyou may try running it using --insecure to skip certificate validation", err)
+		}
+	}
+
 	return err
 }
 
