@@ -38,8 +38,12 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 
 Before using the sl1cmd to perform admnistrative tasks you must [configure the sl1cmd vault](docs/cmd/sl1cmd_vault_new.md)
 
+# License
 
+sl1cmd is released under the under GNU General Public License v3. See [LICENSE](LICENSE)
  
-
-    
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
