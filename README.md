@@ -29,9 +29,10 @@ sl1cmd is a command line interface provides an interface to interact over daily 
 ## Packages 
 [![GoDoc](https://godoc.org/github.com/marco-ostaska/sl1cmd?status.svg)](https://godoc.org/github.com/marco-ostaska/sl1cmd)
 
+- [sl1](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/sl1) - Package sl1 provides primitives for sl1api.
 - [sl1/vault](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/sl1/vault) - Package vault manages encryption for sl1cmd credentials.
 - [sl1/httpcalls](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/sl1/httpcalls) - Package httpcalls makes GET, DELETE and POST calls
-- [wrappper](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/wrapper) - Package wrapper wraps some boring tasks.
+- [wrapper](https://godoc.org/github.com/marco-ostaska/sl1cmd/pkg/wrapper) - Package wrapper wraps some boring tasks.
 
 
 # Installing
