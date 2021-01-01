@@ -40,5 +40,5 @@ Before using the sl1cmd to perform admnistrative tasks you must [configure the s
 
 # License
 
-sl1cmd is released under the under GNU General Public License v3. See [LICENSE](LICENSE)
+sl1cmd is released under the GNU General Public License v3. See [LICENSE](LICENSE)
 
