@@ -72,7 +72,7 @@ func TestBasicInfo_IndexPosition(t *testing.T) {
 			httpcalls.Insecure = true // just for testing purposes
 			bInfo.Load("/api/account/")
 			if _, err := bInfo.IndexPosition(tc.args); err != nil {
-				if strings.Contains(err.Error(), "cant retrive index") {
+				if strings.Contains(err.Error(), "no such") {
 					return
 				}
 				t.Errorf("%s", err)
@@ -96,7 +96,7 @@ func TestBasicInfo_Sl1ID(t *testing.T) {
 			httpcalls.Insecure = true // just for testing purposes
 			bInfo.Load("/api/account/")
 			if _, err := bInfo.Sl1ID(tc.args); err != nil {
-				if strings.Contains(err.Error(), "cant retrive index") {
+				if strings.Contains(err.Error(), "no such") {
 					return
 				}
 				t.Errorf("%s", err)

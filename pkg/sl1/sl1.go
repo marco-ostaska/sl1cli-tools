@@ -21,8 +21,14 @@ package sl1
 import (
 	"fmt"
 	"path"
+	"path/filepath"
 
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1/httpcalls"
+)
+
+// These are predefined shortcuts for sl1 APIs sections.
+const (
+	AccountAPI = "/api/account"
 )
 
 // BasicInfo is an abstraction for basic api results
@@ -72,7 +78,7 @@ func (bInfo *BasicInfo) IndexPosition(s string) (int, error) {
 			return i, nil
 		}
 	}
-	return 0, fmt.Errorf("%s: cant retrive index", s)
+	return 0, fmt.Errorf("%s: no such %v", s, path.Base(path.Dir((*bInfo)[0].URI)))
 
 }
 
@@ -84,4 +90,36 @@ func (bInfo *BasicInfo) Sl1ID(s string) (string, error) {
 	}
 
 	return path.Base((*bInfo)[i].URI), nil
+}
+
+// Println formats the output in a user friendly style
+func (bInfo *BasicInfo) Println(args []string) {
+
+	if len(args) == 0 {
+		bInfo.printRange()
+	}
+
+	if len(args) > 0 {
+		bInfo.printByDesc(args)
+	}
+}
+
+// printRange formats the output for every BasicInfo range
+func (bInfo *BasicInfo) printRange() {
+	for _, i := range *bInfo {
+		fmt.Printf("sl1id=%s(%s)\n", i.ID, i.Description)
+	}
+}
+
+// printByDesc formats the output searching by Description
+func (bInfo *BasicInfo) printByDesc(args []string) {
+	for _, a := range args {
+		i, err := bInfo.IndexPosition(a)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		fmt.Printf("sl1id=%s(%s)\n", filepath.Base(((*bInfo)[i].URI)), ((*bInfo)[i].Description))
+	}
+
 }
