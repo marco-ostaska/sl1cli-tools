@@ -1,3 +1,5 @@
+// +build !prod
+
 /*
 Copyright © 2020 Marco Ostaska
 
@@ -26,12 +28,14 @@ import (
 	"github.com/spf13/cobra/doc"
 )
 
+var version = "0.04 Unreleased"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "sl1cmd",
 	Short:   "sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.",
 	Long:    `sl1cmd is a command line interface to interact with ScienceLogic Monitoring tool API.`,
-	Version: "0.04 Unreleased",
+	Version: version,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -41,6 +45,7 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
 	doc.GenMarkdownTree(rootCmd, "./docs/cmd")
 
 }
