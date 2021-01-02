@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1"
 	"github.com/marco-ostaska/sl1cmd/pkg/sl1/httpcalls"
 	"github.com/spf13/cobra"
@@ -40,7 +42,25 @@ func id(cmd *cobra.Command, args []string) error {
 	if err := u.Load(sl1.AccountAPI); err != nil {
 		return err
 	}
-	u.Println(args)
+
+	// (when USER omitted) prints a list of all users sl1 ids.
+	if len(args) == 0 {
+		for i := range u {
+			fmt.Println(u.FmtMsg(i))
+		}
+		return nil
+	}
+
+	// print users sl1 id for the specified user(s)
+	users, err := u.ListByDesc(args)
+
+	for _, i := range users {
+		fmt.Println(u.FmtMsg(i))
+	}
+
+	for _, e := range err {
+		fmt.Println(e)
+	}
 	return nil
 
 }
