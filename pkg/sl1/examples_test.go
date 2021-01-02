@@ -23,7 +23,7 @@ func ExampleBasicInfo_Load() {
 
 }
 
-func ExampleBasicInfo_IndexPosition() {
+func ExampleBasicInfo_LookupIdxByDesc() {
 	var bInfo sl1.BasicInfo
 	httpcalls.Insecure = true // to accept invalid certificate
 
@@ -31,7 +31,7 @@ func ExampleBasicInfo_IndexPosition() {
 		log.Fatalln(err)
 	}
 
-	i, err := bInfo.IndexPosition("em7admin")
+	i, err := bInfo.LookupIdxByDesc("em7admin")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -41,7 +41,7 @@ func ExampleBasicInfo_IndexPosition() {
 	// Output: 0
 }
 
-func ExampleBasicInfo_Sl1ID() {
+func ExampleBasicInfo_LookupIDbyDesc() {
 	var bInfo sl1.BasicInfo
 	httpcalls.Insecure = true // to accept invalid certificate
 
@@ -49,7 +49,7 @@ func ExampleBasicInfo_Sl1ID() {
 		fmt.Println(err)
 	}
 
-	sl1id, err := bInfo.Sl1ID("em7admin")
+	sl1id, err := bInfo.LookupIDbyDesc("em7admin")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -59,7 +59,7 @@ func ExampleBasicInfo_Sl1ID() {
 	// Output: 1
 }
 
-func ExampleBasicInfo_SearchByURI() {
+func ExampleBasicInfo_LookupDescByURI() {
 	var bInfo sl1.BasicInfo
 	httpcalls.Insecure = true // to accept invalid certificate
 
@@ -67,7 +67,7 @@ func ExampleBasicInfo_SearchByURI() {
 		log.Fatalln(err)
 	}
 
-	desc, err := bInfo.SearchByURI("/api/account/1")
+	desc, err := bInfo.LookupDescByURI("/api/account/1")
 	if err != nil {
 		log.Fatalln(err)
 	}

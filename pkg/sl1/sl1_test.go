@@ -24,7 +24,7 @@ func TestBasicInfo_Load(t *testing.T) {
 
 			if err := bInfo.Load(tc.api); err != nil {
 				if strings.Contains(err.Error(), "json: cannot unmarshal object into Go value of type sl1.BasicInfo") {
-					return
+					t.Skip("Unable to unmarshal json")
 				}
 				t.Errorf("%s", err)
 			}
@@ -32,7 +32,7 @@ func TestBasicInfo_Load(t *testing.T) {
 	}
 }
 
-func TestBasicInfo_SearchByURI(t *testing.T) {
+func TestBasicInfo_LookupDescByURI(t *testing.T) {
 	tt := []struct {
 		name string
 		api  string
@@ -47,9 +47,9 @@ func TestBasicInfo_SearchByURI(t *testing.T) {
 			httpcalls.Insecure = true // just for testing purposes
 			bInfo.Load("/api/account/")
 
-			if _, err := bInfo.SearchByURI(tc.api); err != nil {
+			if _, err := bInfo.LookupDescByURI(tc.api); err != nil {
 				if strings.Contains(err.Error(), "no such uri") {
-					return
+					t.Skip(err)
 				}
 				t.Errorf("%s", err)
 			}
@@ -57,7 +57,7 @@ func TestBasicInfo_SearchByURI(t *testing.T) {
 	}
 }
 
-func TestBasicInfo_IndexPosition(t *testing.T) {
+func TestBasicInfo_IdxPosByDesc(t *testing.T) {
 	tt := []struct {
 		name string
 		args string
@@ -71,9 +71,9 @@ func TestBasicInfo_IndexPosition(t *testing.T) {
 			var bInfo sl1.BasicInfo
 			httpcalls.Insecure = true // just for testing purposes
 			bInfo.Load("/api/account/")
-			if _, err := bInfo.IndexPosition(tc.args); err != nil {
+			if _, err := bInfo.LookupIdxByDesc(tc.args); err != nil {
 				if strings.Contains(err.Error(), "no such") {
-					return
+					t.Skip(err)
 				}
 				t.Errorf("%s", err)
 			}
@@ -95,9 +95,9 @@ func TestBasicInfo_Sl1ID(t *testing.T) {
 			var bInfo sl1.BasicInfo
 			httpcalls.Insecure = true // just for testing purposes
 			bInfo.Load("/api/account/")
-			if _, err := bInfo.Sl1ID(tc.args); err != nil {
+			if _, err := bInfo.LookupIdxByDesc(tc.args); err != nil {
 				if strings.Contains(err.Error(), "no such") {
-					return
+					t.Skip(err)
 				}
 				t.Errorf("%s", err)
 			}

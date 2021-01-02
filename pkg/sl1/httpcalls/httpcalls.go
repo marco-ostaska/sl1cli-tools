@@ -15,12 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Package httpcalls makes GET, DELETE and POST calls
+// Package httpcalls makes GET, DELETE and POST requests.
 package httpcalls
 
 import (
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -33,6 +34,9 @@ import (
 
 // Insecure variable skips certificate validation when true
 var Insecure bool
+
+// ErrInvalidCertificate is returned by http call when try to secure connect in an environment with an invalid certificate
+var ErrInvalidCertificate = errors.New("you may try running it using --insecure to skip certificate validation")
 
 // APIData an abstraction to API
 type APIData struct {
@@ -79,7 +83,7 @@ func isReachable(url string) error {
 	_, err := c.Get(url)
 	if err != nil {
 		if strings.Contains(err.Error(), "certificate") {
-			return fmt.Errorf("%v\n\nyou may try running it using --insecure to skip certificate validation", err)
+			return fmt.Errorf("%v\n\n%v", err, ErrInvalidCertificate)
 		}
 	}
 

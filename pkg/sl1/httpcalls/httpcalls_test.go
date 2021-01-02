@@ -27,15 +27,13 @@ func TestIsReachable(t *testing.T) {
 			if err != nil {
 				switch {
 				case strings.Contains(err.Error(), "no such host"):
-					return
-				case strings.Contains(err.Error(), "cannot validate certificate"):
-					return
+					t.Skip("no such host; skipping tests")
+				case strings.Contains(err.Error(), "certificate"):
+					t.Skip("invalid certificate; skipping tests")
 				case strings.Contains(err.Error(), "no route to host"):
-					return
+					t.Skip("no route to host; skipping tests")
 				case strings.Contains(err.Error(), "Timeout exceeded while awaiting"):
-					return
-				case strings.Contains(err.Error(), "certificate relies"):
-					return
+					t.Skip("Timeout exceeded while awaiting; skipping tests")
 				default:
 					t.Errorf("%v: expected %v, got %v", tc.name, tc.expected, err)
 				}

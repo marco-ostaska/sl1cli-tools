@@ -22,9 +22,11 @@ func TestNewVault(t *testing.T) {
 			rootCmd.SilenceErrors = true
 			rootCmd.SilenceUsage = true
 			if err := rootCmd.Execute(); err != nil {
-				if err.Error() != tc.expected {
-					t.Errorf(err.Error())
+				if err.Error() == tc.expected {
+					t.Skip(err)
+					return
 				}
+				t.Errorf(err.Error())
 			}
 		})
 	}
@@ -67,9 +69,11 @@ func TestUpdateVault(t *testing.T) {
 			rootCmd.SilenceErrors = true
 			rootCmd.SilenceUsage = true
 			if err := rootCmd.Execute(); err != nil {
-				if err.Error() != tc.expected {
-					t.Errorf(err.Error())
+				if err.Error() == tc.expected {
+					t.Skip(err)
+					return
 				}
+				t.Errorf(err.Error())
 			}
 		})
 	}

@@ -31,7 +31,7 @@ const (
 	AccountAPI = "/api/account"
 )
 
-// BasicInfo is an abstraction for basic api results
+// BasicInfo is an abstraction for primitives api results
 type BasicInfo []struct {
 	URI         string `json:"URI"`
 	Description string `json:"description"`
@@ -48,7 +48,7 @@ func (bInfo *BasicInfo) Load(api string) error {
 	}
 
 	for i := 0; i < len(*bInfo); i++ {
-		id, err := bInfo.Sl1ID((*bInfo)[i].Description)
+		id, err := bInfo.LookupIDbyDesc((*bInfo)[i].Description)
 		if err != nil {
 			return err
 		}
@@ -58,8 +58,8 @@ func (bInfo *BasicInfo) Load(api string) error {
 	return nil
 }
 
-// SearchByURI search description by provided URI
-func (bInfo *BasicInfo) SearchByURI(uri string) (string, error) {
+// LookupDescByURI looks up a description content for a provided URI
+func (bInfo *BasicInfo) LookupDescByURI(uri string) (string, error) {
 
 	for _, u := range *bInfo {
 		if uri == u.URI {
@@ -70,21 +70,23 @@ func (bInfo *BasicInfo) SearchByURI(uri string) (string, error) {
 
 }
 
-// IndexPosition searchs index position by provided BasicInfo.Description
-func (bInfo *BasicInfo) IndexPosition(s string) (int, error) {
+// LookupIdxByDesc lookups up index position for provided BasicInfo.Description
+func (bInfo *BasicInfo) LookupIdxByDesc(d string) (int, error) {
 
 	for i, u := range *bInfo {
-		if s == u.Description {
+		if d == u.Description {
 			return i, nil
 		}
 	}
-	return 0, fmt.Errorf("%s: no such %v", s, path.Base(path.Dir((*bInfo)[0].URI)))
+	return 0, fmt.Errorf("%s: no such %v", d, path.Base(path.Dir((*bInfo)[0].URI)))
 
 }
 
-// Sl1ID returns sl1 id from BasicInfo.Description
-func (bInfo *BasicInfo) Sl1ID(s string) (string, error) {
-	i, err := bInfo.IndexPosition(s)
+// -------------------------------------
+
+// LookupIDbyDesc looks up sl1id for a provided Description
+func (bInfo *BasicInfo) LookupIDbyDesc(s string) (string, error) {
+	i, err := bInfo.LookupIdxByDesc(s)
 	if err != nil {
 		return "", err
 	}
@@ -114,7 +116,7 @@ func (bInfo *BasicInfo) printRange() {
 // printByDesc formats the output searching by Description
 func (bInfo *BasicInfo) printByDesc(args []string) {
 	for _, a := range args {
-		i, err := bInfo.IndexPosition(a)
+		i, err := bInfo.LookupIdxByDesc(a)
 		if err != nil {
 			fmt.Println(err)
 			continue
