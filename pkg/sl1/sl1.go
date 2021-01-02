@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Package sl1 provides primitives for sl1api
+// Package sl1 Package account implements utility routines for manipulating /api
 package sl1
 
 import (
